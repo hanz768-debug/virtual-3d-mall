@@ -31,12 +31,12 @@ let storeHits=[];
 function shopBox(w,h,d,x,y,z,m){let o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);showroom.add(o);return o}
 
 function productModel(category,index){
- const g=new THREE.Group(),metal=mat(index%2?0xd9ae53:0xd4e2eb,.19,.85),gem=mat([0x59c9f4,0xe45b87,0x75cba5,0xa884e8][index%4],.12,.35);
+ const g=new THREE.Group(),metal=new THREE.MeshStandardMaterial({color:index%2?0xffd27a:0xe6f2fa,metalness:.96,roughness:.12}),gem=new THREE.MeshPhysicalMaterial({color:[0x55d5ff,0xff4f93,0x59e2a6,0xb68aff][index%4],metalness:.08,roughness:.04,transmission:.26,thickness:.8,clearcoat:1,clearcoatRoughness:.03});
  const add=(geo,m,x=0,y=0,z=0,rx=0,ry=0,rz=0)=>{let o=new THREE.Mesh(geo,m);o.position.set(x,y,z);o.rotation.set(rx,ry,rz);g.add(o);return o};
  if(category===2||category===15){
-  if(index%4===0){add(new THREE.TorusGeometry(.25,.065,12,36),metal,0,.05,0,Math.PI/2);add(new THREE.OctahedronGeometry(.16),gem,0,.24,0)}
-  else if(index%4===1){add(new THREE.TorusGeometry(.3,.038,10,40),metal,0,.05,0);add(new THREE.OctahedronGeometry(.15),gem,0,-.2,.02)}
-  else if(index%4===2){add(new THREE.TorusGeometry(.25,.055,10,36),metal,0,.04,0,Math.PI/2);for(let j=0;j<5;j++)add(new THREE.OctahedronGeometry(.065),gem,Math.cos(j*1.25)*.24,.12,Math.sin(j*1.25)*.24)}
+  if(index%4===0){add(new THREE.TorusGeometry(.25,.065,12,36),metal,0,.05,0,Math.PI/2);add(new THREE.IcosahedronGeometry(.17,1),gem,0,.24,0);for(let k=0;k<4;k++){let angle=k*Math.PI/2;add(new THREE.SphereGeometry(.035,8,8),metal,Math.cos(angle)*.13,.18,Math.sin(angle)*.13)}}
+  else if(index%4===1){add(new THREE.TorusGeometry(.3,.038,10,40),metal,0,.05,0);add(new THREE.IcosahedronGeometry(.16,1),gem,0,-.2,.02)}
+  else if(index%4===2){add(new THREE.TorusGeometry(.25,.055,10,36),metal,0,.04,0,Math.PI/2);for(let j=0;j<5;j++)add(new THREE.IcosahedronGeometry(.07,1),gem,Math.cos(j*1.25)*.24,.12,Math.sin(j*1.25)*.24)}
   else{add(new THREE.BoxGeometry(.33,.3,.12),metal);add(new THREE.CylinderGeometry(.15,.15,.035,24),gem,0,0,.08,Math.PI/2);add(new THREE.BoxGeometry(.2,.8,.08),metal,0,0,-.08)}
  }else if(category===4||category===0){
   add(new THREE.BoxGeometry(.32,.19,.62),mat(0xf2f2f2,.65),0,-.18,0);add(new THREE.BoxGeometry(.36,.22,.43),gem,0,.02,-.08);add(new THREE.BoxGeometry(.34,.3,.19),gem,0,.12,.22);add(new THREE.BoxGeometry(.35,.055,.65),metal,0,-.31,0)
@@ -52,23 +52,23 @@ function productModel(category,index){
 function buildShop(i){
   while(showroom.children.length){let o=showroom.children[0];showroom.remove(o);if(o.geometry)o.geometry.dispose();if(o.material&&o.material.dispose)o.material.dispose()}
   storeHits=[];
-  const wall=mat(colors[i%colors.length],.65),wood=mat(0xc9a97b,.4,.1);
+  const wall=mat(i===2?0x15243c:colors[i%colors.length],.56),wood=mat(i===2?0xc6a05c:0xc9a97b,.35,.2);
   shopBox(11,.16,19,0,-.08,-8,tile);
   shopBox(11,.15,19,0,5.5,-8,white);
   shopBox(.15,5.5,19,-5.5,2.7,-8,wall);
   shopBox(.15,5.5,19,5.5,2.7,-8,wall);
   shopBox(11,5.5,.2,0,2.7,-17.5,wall);
   for(const side of [-1,1]){
-    for(let level=0;level<3;level++)shopBox(1.35,.11,15,side*4.65,1+level*1.2,-8.5,wood);
+    for(let level=0;level<3;level++){shopBox(1.35,.11,15,side*4.65,1+level*1.2,-8.5,wood);if(i===2)shopBox(.8,.045,14.7,side*4.65,1.08+level*1.2,-8.5,new THREE.MeshBasicMaterial({color:0xffe8ae}))}
     for(let n=0;n<5;n++){
       let z=-2.8-n*2.8,idx=n+(side===1?5:0);
       for(let level=0;level<3;level++){
-        let model=productModel(i,idx);model.position.set(side*4.45,1.48+level*1.2,z);showroom.add(model);for(let part of model.children){part.userData.product=idx;storeHits.push(part)}
+        if(i===2){shopBox(.84,.11,.86,side*4.45,1.18+level*1.2,z,mat(0x10213a,.65));let spotlight=new THREE.PointLight(0xffe4b0,.55,3);spotlight.position.set(side*4.2,1.85+level*1.2,z);showroom.add(spotlight)}let model=productModel(i,idx);model.position.set(side*4.45,1.48+level*1.2,z);showroom.add(model);for(let part of model.children){part.userData.product=idx;storeHits.push(part)}
       }
     }
   }
   let label=new THREE.Mesh(new THREE.PlaneGeometry(4.4,.85),sign(names[i]));label.position.set(0,4.35,-17.35);showroom.add(label);
-  for(let z=-2;z>-17;z-=3){let lamp=shopBox(1,.05,.35,0,5.38,z,new THREE.MeshBasicMaterial({color:0xffffff}))}
+  for(let z=-2;z>-17;z-=3){shopBox(1,.05,.35,0,5.38,z,new THREE.MeshBasicMaterial({color:0xffffff}));if(i===2){let light=new THREE.PointLight(0xfff0d7,.65,6);light.position.set(0,4.7,z);showroom.add(light)}}
   showroom.visible=true;storeWalk=storeTarget=storeYaw=storeYawTarget=0
 }
 
