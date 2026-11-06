@@ -29,6 +29,26 @@ let inStore=false,storeWalk=0,storeTarget=0,storeYaw=0,storeYawTarget=0;
 const showroom=new THREE.Group();showroom.position.x=100;showroom.visible=false;scene.add(showroom);
 let storeHits=[];
 function shopBox(w,h,d,x,y,z,m){let o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);showroom.add(o);return o}
+
+function productModel(category,index){
+ const g=new THREE.Group(),metal=mat(index%2?0xd9ae53:0xd4e2eb,.19,.85),gem=mat([0x59c9f4,0xe45b87,0x75cba5,0xa884e8][index%4],.12,.35);
+ const add=(geo,m,x=0,y=0,z=0,rx=0,ry=0,rz=0)=>{let o=new THREE.Mesh(geo,m);o.position.set(x,y,z);o.rotation.set(rx,ry,rz);g.add(o);return o};
+ if(category===2||category===15){
+  if(index%4===0){add(new THREE.TorusGeometry(.25,.065,12,36),metal,0,.05,0,Math.PI/2);add(new THREE.OctahedronGeometry(.16),gem,0,.24,0)}
+  else if(index%4===1){add(new THREE.TorusGeometry(.3,.038,10,40),metal,0,.05,0);add(new THREE.OctahedronGeometry(.15),gem,0,-.2,.02)}
+  else if(index%4===2){add(new THREE.TorusGeometry(.25,.055,10,36),metal,0,.04,0,Math.PI/2);for(let j=0;j<5;j++)add(new THREE.OctahedronGeometry(.065),gem,Math.cos(j*1.25)*.24,.12,Math.sin(j*1.25)*.24)}
+  else{add(new THREE.BoxGeometry(.33,.3,.12),metal);add(new THREE.CylinderGeometry(.15,.15,.035,24),gem,0,0,.08,Math.PI/2);add(new THREE.BoxGeometry(.2,.8,.08),metal,0,0,-.08)}
+ }else if(category===4||category===0){
+  add(new THREE.BoxGeometry(.32,.19,.62),mat(0xf2f2f2,.65),0,-.18,0);add(new THREE.BoxGeometry(.36,.22,.43),gem,0,.02,-.08);add(new THREE.BoxGeometry(.34,.3,.19),gem,0,.12,.22);add(new THREE.BoxGeometry(.35,.055,.65),metal,0,-.31,0)
+ }else if(category===1){
+  add(new THREE.BoxGeometry(.35,.65,.07),metal);add(new THREE.BoxGeometry(.30,.54,.078),gem,0,0,.01);add(new THREE.SphereGeometry(.025,8,8),white,0,-.29,.05)
+ }else if(category===12||category===3){
+  add(new THREE.BoxGeometry(.65,.12,.45),gem,0,-.12,0);add(new THREE.BoxGeometry(.65,.42,.1),gem,0,.15,-.2);for(let x of [-.27,.27])add(new THREE.BoxGeometry(.1,.28,.4),metal,x,-.05,0)
+ }else{
+  add(new THREE.CylinderGeometry(.22,.25,.58,16),gem);add(new THREE.CylinderGeometry(.12,.12,.14,16),metal,0,.36,0)
+ }
+ g.scale.setScalar(1.15);return g
+}
 function buildShop(i){
   while(showroom.children.length){let o=showroom.children[0];showroom.remove(o);if(o.geometry)o.geometry.dispose();if(o.material&&o.material.dispose)o.material.dispose()}
   storeHits=[];
@@ -43,8 +63,7 @@ function buildShop(i){
     for(let n=0;n<5;n++){
       let z=-2.8-n*2.8,idx=n+(side===1?5:0);
       for(let level=0;level<3;level++){
-        let p=shopBox(.72,.58,.72,side*4.65,1.42+level*1.2,z,mat(colors[(i+n+level+2)%colors.length],.35));
-        p.userData.product=idx;storeHits.push(p)
+        let model=productModel(i,idx);model.position.set(side*4.65,1.42+level*1.2,z);showroom.add(model);for(let part of model.children){part.userData.product=idx;storeHits.push(part)}
       }
     }
   }
