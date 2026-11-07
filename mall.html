@@ -48,7 +48,7 @@ function addMallVisitor(x,z,n){
 for(let i=0;i<12;i++){const side=i%2?-1:1;addMallVisitor(side*(2.15+(i%3)*.45),-9-i*8.6,i)}
 // Gold-toned linear ceiling lights and decorative planters.
 const ambientGold=new THREE.MeshBasicMaterial({color:0xffd990});
-for(let z=-4;z>-116;z-=12){for(const x of [-5.55,5.55])box(.065,.035,5.2,x,6.48,z,ambientGold)}
+// Suspended longitudinal ceiling light strips removed: they appeared as diagonal lines over storefronts.
 function mallPlanter(x,z){
  const base=box(.72,.44,.72,x,.22,z,mat(0xd5bd88,.35,.25));
  const stem=new THREE.Mesh(new THREE.CylinderGeometry(.07,.10,1.1,7),mat(0x6e5940));stem.position.set(x,1.02,z);scene.add(stem);
