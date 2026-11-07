@@ -26,10 +26,60 @@ waterfall(-8.75,-48);
 function fountain(x,z,r=3.2){cyl(r,r,.32,x,.2,z,stone,40);const disk=new THREE.Mesh(new THREE.CircleGeometry(r-.2,40),M(0x1588a7,.13,.4));disk.rotation.x=-Math.PI/2;disk.position.set(x,.37,z);scene.add(disk);ring(r-.12,x,.4,z,gold);for(let j=0;j<11;j++){const a=j*6.283/11,rr=j===0?0:r*.58,h=j===0?2.7:1.3;const jet=cyl(.032,.055,h,x+Math.cos(a)*rr,.55+h/2,z+Math.sin(a)*rr,fountainWater,7);animated.push({kind:'jet',o:jet,phase:j*.72})}for(let j=0;j<3;j++){const rip=ring(.65+j*.7,x,.41,z,fountainWater);animated.push({kind:'ripple',o:rip,phase:j*1.4})}}
 fountain(0,-111,3.4);for(const side of [-1,1]){planter(side*6,-111,true);cube(2,.14,.75,side*5.9,.5,-104,stone);cube(2,.65,.12,side*5.9,.85,-103.7,stone)}
 for(let z=-15;z>-113;z-=22){for(const r of [1.55,2.4])ring(r,0,8.1+(r===1.55?.3:0),z,new THREE.MeshBasicMaterial({color:0xffd797}))}
+
+// Second architectural pass: lit storefront interiors, planted terraces and a dramatic destination.
+const amber=new THREE.MeshBasicMaterial({color:0xffdf9d});
+const showcaseGlass=new THREE.MeshPhysicalMaterial({color:0xb4dcf3,transparent:true,opacity:.16,metalness:.15,roughness:.08,depthWrite:false,side:THREE.DoubleSide});
+const storefrontBack=M(0x332b29,.7),displayGold=M(0xc8a06a,.24,.55),silk=M(0xd8c8b6,.65);
+for(let i=0;i<12;i++){
+ const side=i%2===0?-1:1,z=-4-Math.floor(i/2)*17.2;
+ const x=side*8.83;
+ // Illuminated recessed shop windows: merchandise, display furniture, gold borders.
+ cube(.13,3.8,11.25,side*9.06,2.25,z,storefrontBack);
+ for(let j=0;j<5;j++){
+  const zz=z-4.1+j*2.05;
+  cube(.45,.11,1.45,x,1.08,zz,displayGold);
+  cube(.45,.11,1.45,x,2.62,zz,displayGold);
+  if(i===0||i===8){cyl(.21,.32,.38,x-side*.23,1.36,zz,silk,12);ball(.17,x-side*.23,1.74,zz,displayGold,1)}
+  else{cube(.38,.52,.42,x-side*.24,1.44,zz,i%3?white:gold);ball(.17,x-side*.24,2.91,zz,i%2?gold:white,1)}
+  const light=ball(.085,x-side*.4,3.78,zz,amber,0);
+ }
+ cube(.08,.09,11.4,x-side*.49,3.97,z,amber);
+ const glazing=new THREE.Mesh(new THREE.PlaneGeometry(10.9,3.5),showcaseGlass);
+ glazing.rotation.y=side*Math.PI/2;glazing.position.set(x-side*.53,2.3,z);scene.add(glazing);
+}
+// Recessed second-floor landscaping and gallery foliage.
+for(let z=-5;z>-112;z-=11){
+ for(const side of [-1,1]){
+  const x=side*8.9;
+  cube(.7,.45,2.5,x,5.45,z,stone);
+  for(let j=0;j<3;j++){const zz=z+(j-1)*.65;ball(.48,x-side*.1,6.05,zz,leaf,1)}
+ }
+}
+// Grand end wall and monumental waterfall beyond the central fountain.
+const grandZ=-124;
+cube(18.2,8.3,.7,0,4.3,grandZ,stone);
+cube(12.1,7.5,.42,0,4.18,grandZ+.5,M(0x475b67,.33,.2));
+cube(12.6,.18,.72,0,8.05,grandZ+.58,gold);
+const mainFalls=new THREE.Mesh(new THREE.PlaneGeometry(11.2,6.85),new THREE.MeshBasicMaterial({color:0x3c9bc3,transparent:true,opacity:.8,depthWrite:false,side:THREE.DoubleSide}));
+mainFalls.position.set(0,4.22,grandZ+.77);scene.add(mainFalls);
+for(let j=0;j<68;j++){
+ const x=-5.35+j*10.7/67;
+ const strip=new THREE.Mesh(new THREE.PlaneGeometry(.02+(j%5)*.023,6.6),new THREE.MeshBasicMaterial({color:j%3?0x8ee2f5:0xf5ffff,transparent:true,opacity:.12+(j%4)*.07,depthWrite:false,side:THREE.DoubleSide}));
+ strip.position.set(x,4.2,grandZ+.81);scene.add(strip);animated.push({kind:'mainstrip',o:strip,phase:j*.41});
+}
+cube(12.5,.38,1.6,0,.25,grandZ+1.12,M(0x137b9b,.18,.3));
+for(const side of [-1,1]){planter(side*7,-122,true);cube(.2,7.8,.35,side*6.1,4.1,grandZ+.72,gold)}
+// Floating logo panel in the atrium.
+const atriumSign=new THREE.Mesh(new THREE.PlaneGeometry(7.4,1.45),label('WORLD VIRTUAL MALL','#15263a','#f5d58c'));
+atriumSign.position.set(0,8.05,-117.8);scene.add(atriumSign);
+// Warm facade accent strips and marble-clad ground-level columns.
+for(const side of [-1,1]){cube(.1,.1,112,side*8.55,4.72,-52,amber);for(let z=1;z>-107;z-=6){cube(.32,4.75,.36,side*9.38,2.4,z,stone)}}
+
 function shopper(i){const g=new THREE.Group();const outfit=M([0x243d60,0xa68a73,0x4e6f66,0x764f66,0x3a536e][i%5],.8),skin=M([0xd49a73,0x91654a,0xf1c6a3][i%3],.85),hair=M([0x3a2a25,0x684834,0x222126][i%3]);function part(geo,m,x,y,z){const o=new THREE.Mesh(geo,m);o.position.set(x,y,z);g.add(o);return o}part(new THREE.CylinderGeometry(.23,.3,.78,10),outfit,0,1.12,0);part(new THREE.SphereGeometry(.17,10,8),skin,0,1.73,0);const h=part(new THREE.SphereGeometry(.175,10,8),hair,0,1.81,-.02);h.scale.y=.55;const legs=[];for(const side of [-1,1]){const leg=part(new THREE.CylinderGeometry(.075,.085,.67,8),outfit,side*.12,.43,0);legs.push(leg);part(new THREE.BoxGeometry(.16,.12,.27),black,side*.12,.07,-.05);const arm=part(new THREE.CylinderGeometry(.07,.07,.67,8),outfit,side*.31,1.13,0);if(side===1&&i%2===0)part(new THREE.BoxGeometry(.28,.33,.16),gold,.39,.65,.05)}scene.add(g);return {g,legs,base:-8-i*8.1,x:(i%2?-1:1)*(2.4+i%3),phase:i*1.9}}
 const people=Array.from({length:13},(_,i)=>shopper(i));
 let yaw=0,yawTarget=0,walk=0,walkTarget=0,drag=false,lastX=0,lastY=0;const el=renderer.domElement;el.style.touchAction='none';el.addEventListener('pointerdown',e=>{drag=true;lastX=e.clientX;lastY=e.clientY;el.setPointerCapture(e.pointerId)});el.addEventListener('pointerup',()=>drag=false);el.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-lastX,dy=lastY-e.clientY;lastX=e.clientX;lastY=e.clientY;yawTarget-=dx*.007;walkTarget=THREE.MathUtils.clamp(walkTarget+dy*.1,0,117)});
 document.getElementById('left').onclick=()=>yawTarget-=Math.PI/6;document.getElementById('right').onclick=()=>yawTarget+=Math.PI/6;document.getElementById('forward').onclick=()=>walkTarget=Math.min(117,walkTarget+4);document.getElementById('back').onclick=()=>walkTarget=Math.max(0,walkTarget-4);
-function animate(t){requestAnimationFrame(animate);walk+=(walkTarget-walk)*.08;yaw+=(yawTarget-yaw)*.13;camera.position.set(0,1.72,8-walk);camera.lookAt(Math.sin(yaw)*10,1.65,8-walk-Math.cos(yaw)*10);for(const p of people){const a=t*.00045+p.phase;p.g.position.set(p.x,p.g.position.y,p.base+Math.sin(a)*2.2);p.g.rotation.y=Math.cos(a)>0?0:Math.PI;p.legs[0].rotation.x=Math.sin(t*.005+p.phase)*.36;p.legs[1].rotation.x=-p.legs[0].rotation.x}for(const v of animated){if(v.kind==='stripe'){v.o.position.y=2.2+Math.sin(t*.003+v.phase)*.05;v.o.material.opacity=.14+.15*(.5+.5*Math.sin(t*.005+v.phase))}else if(v.kind==='drop'){v.o.position.y=.28+((t*.0005+v.phase)%1)*.5}else if(v.kind==='jet'){v.o.scale.y=.85+.15*Math.sin(t*.004+v.phase)}else if(v.kind==='ripple'){const scale=.93+.12*Math.sin(t*.003+v.phase);v.o.scale.set(scale,scale,1)}}renderer.render(scene,camera)}animate(0);
+function animate(t){requestAnimationFrame(animate);walk+=(walkTarget-walk)*.08;yaw+=(yawTarget-yaw)*.13;camera.position.set(0,1.72,8-walk);camera.lookAt(Math.sin(yaw)*10,1.65,8-walk-Math.cos(yaw)*10);for(const p of people){const a=t*.00045+p.phase;p.g.position.set(p.x,p.g.position.y,p.base+Math.sin(a)*2.2);p.g.rotation.y=Math.cos(a)>0?0:Math.PI;p.legs[0].rotation.x=Math.sin(t*.005+p.phase)*.36;p.legs[1].rotation.x=-p.legs[0].rotation.x}for(const v of animated){if(v.kind==='mainstrip'){v.o.position.y=4.2+Math.sin(t*.002+v.phase)*.065;v.o.material.opacity=.12+.14*(.5+.5*Math.sin(t*.004+v.phase))}else if(v.kind==='stripe'){v.o.position.y=2.2+Math.sin(t*.003+v.phase)*.05;v.o.material.opacity=.14+.15*(.5+.5*Math.sin(t*.005+v.phase))}else if(v.kind==='drop'){v.o.position.y=.28+((t*.0005+v.phase)%1)*.5}else if(v.kind==='jet'){v.o.scale.y=.85+.15*Math.sin(t*.004+v.phase)}else if(v.kind==='ripple'){const scale=.93+.12*Math.sin(t*.003+v.phase);v.o.scale.set(scale,scale,1)}}renderer.render(scene,camera)}animate(0);
 window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});document.getElementById('loading').remove();
 </script></body></html>
