@@ -171,6 +171,71 @@ makeCentralAtrium();
 makeFountain(-4.6,-39);makeFountain(4.6,-83);
 makeWaterfall(5.65,-59);
 
+
+// Luxury atrium visual pass: procedural stone, shop glazing, balcony architecture and planting.
+function luxuryMarbleTexture(){
+ const c=document.createElement('canvas');c.width=c.height=512;const g=c.getContext('2d');
+ g.fillStyle='#d8d9d6';g.fillRect(0,0,512,512);
+ let seed=45123;const rand=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296};
+ for(let i=0;i<95;i++){
+  const x=rand()*512,y=rand()*512,span=25+rand()*210;
+  g.beginPath();g.moveTo(x,y);
+  for(let j=0;j<6;j++)g.lineTo(x+span*j/5,y+Math.sin(j*1.9+i)*9+(rand()-.5)*17);
+  g.strokeStyle=i%4===0?'rgba(94,108,119,.17)':'rgba(255,255,255,.32)';
+  g.lineWidth=.5+rand()*2.3;g.stroke();
+ }
+ g.strokeStyle='rgba(255,255,255,.6)';g.lineWidth=2;
+ for(let v=0;v<=512;v+=128){g.beginPath();g.moveTo(v,0);g.lineTo(v,512);g.stroke();g.beginPath();g.moveTo(0,v);g.lineTo(512,v);g.stroke()}
+ const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(2,17);t.colorSpace=THREE.SRGBColorSpace;return t;
+}
+function luxuryScenePass(){
+ const marble=new THREE.MeshStandardMaterial({map:luxuryMarbleTexture(),roughness:.22,metalness:.13});
+ const floor=new THREE.Mesh(new THREE.PlaneGeometry(13.7,125),marble);
+ floor.rotation.x=-Math.PI/2;floor.position.set(0,.018,-57.5);scene.add(floor);
+ const accent=new THREE.MeshBasicMaterial({color:0xffc96c});
+ const warmStone=mat(0xe3d8c9,.35,.12);
+ const glazing=new THREE.MeshPhysicalMaterial({color:0xc6e7f2,transparent:true,opacity:.11,roughness:.08,metalness:.12,depthWrite:false,side:THREE.DoubleSide});
+ const rail=new THREE.MeshPhysicalMaterial({color:0xb6d7e1,transparent:true,opacity:.28,roughness:.12,depthWrite:false,side:THREE.DoubleSide});
+ for(const side of [-1,1]){
+  const x=side*6.9;
+  // Upper gallery: railings, glass balustrade, marble ledges and warm integrated light.
+  box(.85,.2,119,side*7.02,4.38,-57,warmStone);
+  box(.065,.075,119,side*6.35,4.46,-57,accent);
+  box(.07,.075,119,side*6.35,5.58,-57,accent);
+  box(.055,1.03,119,side*6.35,5.02,-57,rail);
+  for(let z=-2;z>-116;z-=5.7){
+   box(.14,1.15,.13,side*6.34,5.02,z,warmStone);
+   // Marble-clad pilasters and discrete wall sconces between storefronts.
+   box(.24,4.7,.28,side*6.85,2.37,z,warmStone);
+   box(.1,.5,.18,side*6.69,3.45,z,accent);
+  }
+  // The glass is offset outside the shop interaction plane; keep storefront click targets clear.
+  for(let z=-4;z>-113;z-=5.7){
+   const panel=new THREE.Mesh(new THREE.PlaneGeometry(4.6,2.85),glazing);
+   panel.rotation.y=side*Math.PI/2;panel.position.set(side*6.77,2.32,z-2.65);scene.add(panel);
+  }
+ }
+ const flowerColors=[0xff84b5,0xf9c875,0xf2a1d4,0xffffff];
+ for(const z of [-17,-34,-50,-70,-89,-107]){
+  for(const side of [-1,1]){
+   const x=side*5.6;
+   const planter=new THREE.Mesh(new THREE.CylinderGeometry(.58,.67,.55,12),warmStone);
+   planter.position.set(x,.29,z);scene.add(planter);
+   const trunk=new THREE.Mesh(new THREE.CylinderGeometry(.06,.09,1.3,7),mat(0x765d42));trunk.position.set(x,1.1,z);scene.add(trunk);
+   const crown=new THREE.Mesh(new THREE.IcosahedronGeometry(.64,1),mat(0x36875a));crown.position.set(x,1.98,z);scene.add(crown);
+   for(let j=0;j<7;j++){const a=j*6.283/7;const flower=new THREE.Mesh(new THREE.SphereGeometry(.11,6,5),mat(flowerColors[j%4]));flower.position.set(x+Math.cos(a)*.39,.59,z+Math.sin(a)*.39);scene.add(flower)}
+  }
+ }
+ // Multiple pendant chandeliers add visual depth without costly dynamic shadows.
+ for(const z of [-24,-49,-74,-99]){
+  for(const radius of [1.45,2.15]){
+   const ring=new THREE.Mesh(new THREE.TorusGeometry(radius,.065,8,48),new THREE.MeshBasicMaterial({color:0xffd994}));
+   ring.rotation.x=Math.PI/2;ring.position.set(0,radius===1.45?7.48:7.82,z);scene.add(ring);
+  }
+ }
+}
+luxuryScenePass();
+
 const length=132;
 box(14,.15,length,0,-.11,-length/2+5,tile);for(let x of [-5.95,5.95])box(.055,.012,length,x,.008,-length/2+5,mat(0x526f83,.15,.7));box(2,.025,length,-4.1,-.01,-length/2+5,mat(0xb9d1dc,.17,.3));box(2,.025,length,4.1,-.01,-length/2+5,mat(0xb9d1dc,.17,.3));
 for(let z=5;z>-length+10;z-=3){box(14,.009,.028,0,.005,z,mat(0xc7d7dd,.3,.1));box(.022,.01,3,0,.008,z-1.5,mat(0xd7e3e8,.4))}
