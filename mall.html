@@ -118,40 +118,51 @@ for(const z of [-38,-60,-83]){
  for(const x of [-1.4,1.4])box(.025,.33,.025,x,6.52,z,mat(0xa69b84,.4,.3));
 }
 
+// Small landscaped gathering plazas at the sides of the main walking lane.
+function addPlaza(x,z){
+ const stone=mat(0xd8c9ae,.42,.1),leaf=mat(0x438c63,.82);
+ const platform=new THREE.Mesh(new THREE.CylinderGeometry(1.42,1.42,.13,24),stone);
+ platform.position.set(x,.075,z);scene.add(platform);
+ const center=new THREE.Mesh(new THREE.CylinderGeometry(.67,.74,.44,18),mat(0xc8b18c,.45,.15));
+ center.position.set(x,.33,z);scene.add(center);
+ const crown=new THREE.Mesh(new THREE.IcosahedronGeometry(.7,1),leaf);
+ crown.position.set(x,1.27,z);scene.add(crown);
+ const flowers=[0xee80aa,0xffcf75,0xf3a7ce];
+ for(let i=0;i<9;i++){const a=i*Math.PI*2/9;const bloom=new THREE.Mesh(new THREE.SphereGeometry(.12,6,5),mat(flowers[i%3]));bloom.position.set(x+Math.cos(a)*.96,.24,z+Math.sin(a)*.96);scene.add(bloom)}
+}
+addPlaza(-4.45,-95);addPlaza(4.45,-21);
+
 makeFountain(-4.6,-39);makeFountain(4.6,-83);
 makeWaterfall(5.65,-59);
 
 const length=132;
 box(14,.15,length,0,-.11,-length/2+5,tile);for(let x of [-5.95,5.95])box(.055,.012,length,x,.008,-length/2+5,mat(0x526f83,.15,.7));box(2,.025,length,-4.1,-.01,-length/2+5,mat(0xb9d1dc,.17,.3));box(2,.025,length,4.1,-.01,-length/2+5,mat(0xb9d1dc,.17,.3));
 for(let z=5;z>-length+10;z-=3){box(14,.009,.028,0,.005,z,mat(0xc7d7dd,.3,.1));box(.022,.01,3,0,.008,z-1.5,mat(0xd7e3e8,.4))}
-// Replace opaque roof with a central sky-blue glazed strip and two solid side soffits.
+// Arched glass canopy, built from transparent sloped segments with lightweight metal ribs.
+const archFrame=mat(0x829aa7,.42,.45);
+const archGlass=new THREE.MeshPhysicalMaterial({color:0x8ec9e0,roughness:.1,metalness:.06,transparent:true,opacity:.27,depthWrite:false,side:THREE.DoubleSide});
 box(3.4,.2,length,-5.3,6.7,-length/2+5,white);
 box(3.4,.2,length,5.3,6.7,-length/2+5,white);
-const skyGlass=new THREE.MeshPhysicalMaterial({color:0x9acbdc,roughness:.13,metalness:.05,transparent:true,opacity:.43,depthWrite:false,side:THREE.DoubleSide});
-box(7.2,.055,length,0,6.72,-length/2+5,skyGlass);
-for(let z=3;z>-length+10;z-=6.5){box(7.15,.085,.09,0,6.77,z,mat(0x8ca3ad,.4,.55))}
-box(1,.04,length,-5.8,6.53,-length/2+5,gold);box(1,.04,length,5.8,6.53,-length/2+5,gold);
-
-// Skylight ribs and illuminated gallery edges: lightweight architectural detail.
-const skylightFrame=mat(0x8ca3ad,.4,.55);
-const skylightPane=new THREE.MeshPhysicalMaterial({color:0xa8dce9,transparent:true,opacity:.22,roughness:.1,metalness:.08,depthWrite:false,side:THREE.DoubleSide});
-for(let z=1;z>-119;z-=7){
- for(let i=0;i<=8;i++){
-  const a=Math.PI*i/8,xx=Math.cos(a)*5.1,yy=6.78+Math.sin(a)*2.05;
-  if(i<8){const b=Math.PI*(i+1)/8,nx=Math.cos(b)*5.1,ny=6.78+Math.sin(b)*2.05;
-   const rib=new THREE.Mesh(new THREE.CylinderGeometry(.043,.043,Math.hypot(nx-xx,ny-yy),6),skylightFrame);
-   rib.position.set((xx+nx)/2,(yy+ny)/2,z);rib.rotation.z=-Math.atan2(nx-xx,ny-yy);scene.add(rib);
-  }
+box(1,.04,length,-5.8,6.53,-length/2+5,gold);
+box(1,.04,length,5.8,6.53,-length/2+5,gold);
+const archPoints=[];
+for(let i=0;i<=12;i++){const a=Math.PI-i*Math.PI/12;archPoints.push(new THREE.Vector3(5.1*Math.cos(a),6.68+2.45*Math.sin(a),0))}
+for(let i=0;i<12;i++){
+ const p=archPoints[i],q=archPoints[i+1],dx=q.x-p.x,dy=q.y-p.y;
+ const panel=new THREE.Mesh(new THREE.PlaneGeometry(Math.hypot(dx,dy),length-9),archGlass);
+ panel.position.set((p.x+q.x)/2,(p.y+q.y)/2,-length/2+5);
+ panel.rotation.z=Math.atan2(dy,dx);scene.add(panel);
+}
+for(let z=2;z>-length+11;z-=8){
+ for(let i=0;i<12;i++){
+  const p=archPoints[i],q=archPoints[i+1],dx=q.x-p.x,dy=q.y-p.y;
+  const rib=new THREE.Mesh(new THREE.CylinderGeometry(.045,.045,Math.hypot(dx,dy),6),archFrame);
+  rib.position.set((p.x+q.x)/2,(p.y+q.y)/2,z);
+  rib.rotation.z=-Math.atan2(dx,dy);scene.add(rib);
  }
 }
-for(let i=0;i<8;i++){
- const a=Math.PI*i/8,b=Math.PI*(i+1)/8,xx=(Math.cos(a)+Math.cos(b))*2.55,yy=6.78+(Math.sin(a)+Math.sin(b))*1.025;
- const pane=new THREE.Mesh(new THREE.PlaneGeometry(1.95,117),skylightPane);
- pane.position.set(xx,yy,-59);pane.rotation.set(-Math.PI/2,0,-(a+b)/2); // decorative translucent sky panels
- // Keep panes unmounted until skylight occlusion and roof geometry are coordinated.
-}
-// Removed floating longitudinal gold strips: they crossed storefronts in perspective on mobile.
-
+for(let i=1;i<12;i++){const p=archPoints[i];box(.035,.035,length-9,p.x,p.y,-length/2+5,archFrame)}
+// The roof is genuinely open above the transparent canopy; no opaque center slab.
 for(let z=3;z>-length+10;z-=4){for(let x of [-4,-2,0,2,4]){let lamp=new THREE.Mesh(new THREE.CylinderGeometry(.13,.13,.02,12),new THREE.MeshBasicMaterial({color:0xffffff}));lamp.rotation.x=Math.PI/2;lamp.position.set(x,6.57,z);scene.add(lamp)}}
 const hit=[];const liveUnits=new Map(),storeSigns=[],ceilingSigns=[],storeFacades=[];const storeKey=n=>String(n);
 const approvedBrands=new Map(),approvedStyles=new Map();
