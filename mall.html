@@ -132,6 +132,42 @@ function addPlaza(x,z){
 }
 addPlaza(-4.45,-95);addPlaza(4.45,-21);
 
+// Central atrium landmark beyond the shop corridor, leaving the entire walkway unobstructed.
+function makeCentralAtrium(){
+ const z=-119.5,stone=mat(0xe3d7c6,.28,.2),bronze=mat(0xd8ae63,.3,.45);
+ const turquoise=new THREE.MeshBasicMaterial({color:0x168ba8,transparent:true,opacity:.88});
+ const pool=new THREE.Mesh(new THREE.CylinderGeometry(3.25,3.25,.22,40),stone);
+ pool.position.set(0,.13,z);scene.add(pool);
+ const waterDisc=new THREE.Mesh(new THREE.CircleGeometry(2.98,40),turquoise);
+ waterDisc.rotation.x=-Math.PI/2;waterDisc.position.set(0,.255,z);scene.add(waterDisc);
+ const edge=new THREE.Mesh(new THREE.TorusGeometry(3.13,.075,8,48),bronze);
+ edge.rotation.x=Math.PI/2;edge.position.set(0,.29,z);scene.add(edge);
+ const jets=[],ripples=[];
+ const waterJet=new THREE.MeshBasicMaterial({color:0xa4efff,transparent:true,opacity:.72,depthWrite:false});
+ for(let i=0;i<9;i++){
+  const a=i*Math.PI*2/9,rad=i===0?0:1.55;
+  const x=Math.cos(a)*rad,zz=z+Math.sin(a)*rad;
+  const jet=new THREE.Mesh(new THREE.CylinderGeometry(.035,.055,i===0?2.1:1.15,7),waterJet);
+  jet.position.set(x,i===0?1.35:.88,zz);scene.add(jet);jets.push(jet);
+ }
+ for(let i=0;i<3;i++){
+  const ripple=new THREE.Mesh(new THREE.TorusGeometry(.55+i*.62,.023,5,40),new THREE.MeshBasicMaterial({color:0xb5f3ff,transparent:true,opacity:.55,depthWrite:false}));
+  ripple.rotation.x=-Math.PI/2;ripple.position.set(0,.285+i*.003,z);scene.add(ripple);ripples.push(ripple);
+ }
+ waterFeatures.push({jets,rings:ripples});
+ for(const side of [-1,1]){
+  const x=side*4.8;
+  const planter=new THREE.Mesh(new THREE.CylinderGeometry(.88,1.0,.52,16),stone);planter.position.set(x,.27,z);scene.add(planter);
+  const trunk=new THREE.Mesh(new THREE.CylinderGeometry(.095,.14,2.35,8),mat(0x785b43));trunk.position.set(x,1.66,z);scene.add(trunk);
+  const crown=new THREE.Mesh(new THREE.IcosahedronGeometry(1.13,1),mat(0x34835b));crown.position.set(x,3.03,z);scene.add(crown);
+  for(let j=0;j<8;j++){const a=j*Math.PI/4;const flower=new THREE.Mesh(new THREE.SphereGeometry(.15,6,5),mat(j%2?0xe978a6:0xffd581));flower.position.set(x+Math.cos(a)*.7,.56,z+Math.sin(a)*.7);scene.add(flower)}
+ }
+ const glow=new THREE.Mesh(new THREE.TorusGeometry(2.45,.075,8,48),new THREE.MeshBasicMaterial({color:0xffe2a0}));
+ glow.rotation.x=Math.PI/2;glow.position.set(0,6.3,z);scene.add(glow);
+}
+makeCentralAtrium();
+
+
 makeFountain(-4.6,-39);makeFountain(4.6,-83);
 makeWaterfall(5.65,-59);
 
