@@ -151,7 +151,11 @@ for(let i=0;i<12;i++){
  const p=archPoints[i],q=archPoints[i+1],dx=q.x-p.x,dy=q.y-p.y;
  const panel=new THREE.Mesh(new THREE.PlaneGeometry(Math.hypot(dx,dy),length-9),archGlass);
  panel.position.set((p.x+q.x)/2,(p.y+q.y)/2,-length/2+5);
- panel.rotation.z=Math.atan2(dy,dx);scene.add(panel);
+ const along=new THREE.Vector3(0,0,1);
+ const across=new THREE.Vector3(dx,dy,0).normalize();
+ const normal=new THREE.Vector3().crossVectors(across,along).normalize();
+ const basis=new THREE.Matrix4().makeBasis(across,along,normal);
+ panel.quaternion.setFromRotationMatrix(basis);scene.add(panel);
 }
 for(let z=2;z>-length+11;z-=8){
  for(let i=0;i<12;i++){
