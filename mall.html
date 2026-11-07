@@ -98,6 +98,27 @@ const length=132;
 box(14,.15,length,0,-.11,-length/2+5,tile);for(let x of [-5.95,5.95])box(.055,.012,length,x,.008,-length/2+5,mat(0x526f83,.15,.7));box(2,.025,length,-4.1,-.01,-length/2+5,mat(0xb9d1dc,.17,.3));box(2,.025,length,4.1,-.01,-length/2+5,mat(0xb9d1dc,.17,.3));
 for(let z=5;z>-length+10;z-=3){box(14,.009,.028,0,.005,z,mat(0xc7d7dd,.3,.1));box(.022,.01,3,0,.008,z-1.5,mat(0xd7e3e8,.4))}
 box(14,.2,length,0,6.7,-length/2+5,white);box(1,.04,length,-5.8,6.53,-length/2+5,gold);box(1,.04,length,5.8,6.53,-length/2+5,gold);
+
+// Skylight ribs and illuminated gallery edges: lightweight architectural detail.
+const skylightFrame=mat(0x8ca3ad,.4,.55);
+const skylightPane=new THREE.MeshPhysicalMaterial({color:0xa8dce9,transparent:true,opacity:.22,roughness:.1,metalness:.08,depthWrite:false,side:THREE.DoubleSide});
+for(let z=1;z>-119;z-=7){
+ for(let i=0;i<=8;i++){
+  const a=Math.PI*i/8,xx=Math.cos(a)*5.1,yy=6.78+Math.sin(a)*2.05;
+  if(i<8){const b=Math.PI*(i+1)/8,nx=Math.cos(b)*5.1,ny=6.78+Math.sin(b)*2.05;
+   const rib=new THREE.Mesh(new THREE.CylinderGeometry(.043,.043,Math.hypot(nx-xx,ny-yy),6),skylightFrame);
+   rib.position.set((xx+nx)/2,(yy+ny)/2,z);rib.rotation.z=-Math.atan2(nx-xx,ny-yy);scene.add(rib);
+  }
+ }
+}
+for(let i=0;i<8;i++){
+ const a=Math.PI*i/8,b=Math.PI*(i+1)/8,xx=(Math.cos(a)+Math.cos(b))*2.55,yy=6.78+(Math.sin(a)+Math.sin(b))*1.025;
+ const pane=new THREE.Mesh(new THREE.PlaneGeometry(1.95,117),skylightPane);
+ pane.position.set(xx,yy,-59);pane.rotation.set(-Math.PI/2,0,-(a+b)/2); // decorative translucent sky panels
+ // Keep panes unmounted until skylight occlusion and roof geometry are coordinated.
+}
+for(const x of [-6.65,6.65]){box(.085,.055,114,x,4.2,-57,new THREE.MeshBasicMaterial({color:0xffd49b}));box(.06,.045,114,x,5.35,-57,new THREE.MeshBasicMaterial({color:0xffdfaa}))}
+
 for(let z=3;z>-length+10;z-=4){for(let x of [-4,-2,0,2,4]){let lamp=new THREE.Mesh(new THREE.CylinderGeometry(.13,.13,.02,12),new THREE.MeshBasicMaterial({color:0xffffff}));lamp.rotation.x=Math.PI/2;lamp.position.set(x,6.57,z);scene.add(lamp)}}
 const hit=[];const liveUnits=new Map(),storeSigns=[],ceilingSigns=[],storeFacades=[];const storeKey=n=>String(n);
 const approvedBrands=new Map(),approvedStyles=new Map();
