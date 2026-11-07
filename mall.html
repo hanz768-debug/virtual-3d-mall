@@ -70,7 +70,7 @@ function makeFountain(x,z){
 function makeWaterfall(x,z){
  // The waterfall faces the aisle (X axis). Its stream is real geometry, not a gray flat panel.
  const inward=x>0?-1:1,front=x+inward*.46;
- const stone=mat(0x495765,.45,.14),trim=new THREE.MeshBasicMaterial({color:0xffcf78});
+ const stone=mat(0x66727c,.28,.2),trim=new THREE.MeshBasicMaterial({color:0xffcf78});
  const water=new THREE.MeshBasicMaterial({color:0x31b9df,transparent:true,opacity:.8,depthWrite:false,side:THREE.DoubleSide});
  const foam=new THREE.MeshBasicMaterial({color:0xd5faff,transparent:true,opacity:.9,depthWrite:false});
  box(.46,3.65,2.9,x,2.06,z,stone);
@@ -80,6 +80,9 @@ function makeWaterfall(x,z){
  box(.075,.055,2.57,front,3.83,z,trim);
  box(.075,.06,2.68,front,.33,z,trim);
  const basin=box(1.03,.23,3.04,x+inward*.32,.17,z,new THREE.MeshBasicMaterial({color:0x146b88}));
+ for(const dz of [-1.23,1.23])box(.075,3.37,.035,front+inward*.13,2.06,z+dz,trim);
+ for(let i=0;i<4;i++){const lamp=new THREE.Mesh(new THREE.SphereGeometry(.055,8,6),new THREE.MeshBasicMaterial({color:0xfff3cc}));lamp.position.set(front+inward*.2,3.84,z-.95+i*.64);scene.add(lamp)}
+
  // A continuous translucent water sheet with irregular moving highlights.
  const sheetMaterial=new THREE.MeshBasicMaterial({color:0x2d9bc2,transparent:true,opacity:.68,depthWrite:false,side:THREE.DoubleSide});
  const sheet=new THREE.Mesh(new THREE.PlaneGeometry(2.46,3.18),sheetMaterial);
@@ -121,7 +124,13 @@ makeWaterfall(5.65,-59);
 const length=132;
 box(14,.15,length,0,-.11,-length/2+5,tile);for(let x of [-5.95,5.95])box(.055,.012,length,x,.008,-length/2+5,mat(0x526f83,.15,.7));box(2,.025,length,-4.1,-.01,-length/2+5,mat(0xb9d1dc,.17,.3));box(2,.025,length,4.1,-.01,-length/2+5,mat(0xb9d1dc,.17,.3));
 for(let z=5;z>-length+10;z-=3){box(14,.009,.028,0,.005,z,mat(0xc7d7dd,.3,.1));box(.022,.01,3,0,.008,z-1.5,mat(0xd7e3e8,.4))}
-box(14,.2,length,0,6.7,-length/2+5,white);box(1,.04,length,-5.8,6.53,-length/2+5,gold);box(1,.04,length,5.8,6.53,-length/2+5,gold);
+// Replace opaque roof with a central sky-blue glazed strip and two solid side soffits.
+box(3.4,.2,length,-5.3,6.7,-length/2+5,white);
+box(3.4,.2,length,5.3,6.7,-length/2+5,white);
+const skyGlass=new THREE.MeshPhysicalMaterial({color:0x9acbdc,roughness:.13,metalness:.05,transparent:true,opacity:.43,depthWrite:false,side:THREE.DoubleSide});
+box(7.2,.055,length,0,6.72,-length/2+5,skyGlass);
+for(let z=3;z>-length+10;z-=6.5){box(7.15,.085,.09,0,6.77,z,mat(0x8ca3ad,.4,.55))}
+box(1,.04,length,-5.8,6.53,-length/2+5,gold);box(1,.04,length,5.8,6.53,-length/2+5,gold);
 
 // Skylight ribs and illuminated gallery edges: lightweight architectural detail.
 const skylightFrame=mat(0x8ca3ad,.4,.55);
