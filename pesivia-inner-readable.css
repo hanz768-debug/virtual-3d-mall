@@ -28,3 +28,29 @@ background:rgba(5,15,30,.10)!important;
 html body main :is(input,textarea,select){background:rgba(0,0,0,.68)!important;color:#fff!important;-webkit-text-fill-color:#fff!important;border:1px solid #ffffffa8!important}
 html body main input::placeholder{color:#eee!important;-webkit-text-fill-color:#eee!important}
 html body main :is(button,a,input,select):focus-visible{outline:2px solid white!important;outline-offset:2px!important}
+
+/* Contrast correction: descriptive text must not sit directly on the bright photo */
+html body main p:not(:has(button,input)),html body main .notice,html body main .status,
+html body main .sub,html body main .muted,html body main .total,
+html body main #intro,html body main #status,html body main #detail{
+ background:rgba(0,0,0,.82)!important;
+ color:#fff!important;-webkit-text-fill-color:#fff!important;
+ text-shadow:none!important;
+ border-radius:7px!important;
+ padding:5px 9px!important;
+ width:fit-content!important;max-width:100%!important;
+ overflow-wrap:anywhere!important;
+ box-decoration-break:clone!important;-webkit-box-decoration-break:clone!important;
+}
+html body main .card,html body main .item,html body main .panel{
+ background:rgba(5,15,30,.08)!important;
+}
+html body main .card .status,html body main .item .status{
+ display:inline-block!important;width:auto!important;max-width:100%!important;
+ padding:4px 8px!important;border:0!important;
+}
+html body main a:not(.action-link):not(.action):not(.btn){
+ color:#fff!important;-webkit-text-fill-color:#fff!important;
+ background:rgba(0,0,0,.8)!important;border-radius:7px!important;
+ padding:5px 9px!important;text-decoration:none!important;
+}
