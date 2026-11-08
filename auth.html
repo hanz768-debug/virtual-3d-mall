@@ -16,6 +16,29 @@ html body :is(input,select,textarea){background:rgba(10,23,45,.7)!important;colo
 html body input::placeholder,html body textarea::placeholder{color:#e0e5ed!important}
 html body :is(.sub,.muted,.price,.status,.num,.total,footer){color:#fff!important;text-shadow:0 1px 4px #000!important}
 html body main{position:relative}
+</style><style id="pesivia-mobile-background-fix">
+/* Preserve full sharp mall photo on iOS: no blurred full-page layers */
+html{background:#091224!important}
+html body{background-attachment:scroll!important;background-position:center top!important;background-size:cover!important;min-height:100svh!important}
+html body main :is(.card,.panel,.product,.item,.notice,.status,section,.message,.warning,.ok){
+background:rgba(8,22,42,.10)!important;
+-webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+border:1px solid rgba(255,255,255,.7)!important;
+box-shadow:0 2px 7px rgba(0,0,0,.15)!important;
+}
+html body :is(button,.btn,a.btn,a.button,.actions a,.card a,.link,header a){
+background:rgba(8,23,45,.28)!important;
+-webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+}
+html body main :is(h1,h2,h3,p,.sub,.muted,.price,.status,.num){text-shadow:0 2px 4px #000,0 0 7px #000!important}
+@media(max-width:700px){
+html body main{padding:12px!important}
+html body main .grid{gap:9px!important;grid-template-columns:1fr!important}
+html body main .grid>.card{padding:11px 13px!important;margin:0!important;min-height:0!important}
+html body main .grid>.card h2,html body main .grid>.card h3{font-size:19px!important;margin:2px 0 7px!important}
+html body main .grid>.card p{margin:5px 0!important}
+html body main .grid>.card :is(button,.btn,a){padding:8px 12px!important}
+}
 </style></head><body><header><strong>🏬 ورود فروشندگان</strong><a href="index.html">بازارهای جهانی ↩</a></header><main><section><h2>حساب فروشنده</h2><p class="muted">ثبت‌نام با ایمیل و رمز عبور. برای دریافت مغازه، تأیید مدیریت جداگانه لازم است.</p><div id="forms"><label for="email">ایمیل</label><input id="email" type="email" autocomplete="email"><label for="password">رمز عبور</label><input id="password" type="password" autocomplete="current-password" minlength="8"><button id="signup">ایجاد حساب</button><button id="login">ورود</button><button id="reset">بازیابی رمز</button></div><div id="account"><p id="who"></p><a href="seller.html">رفتن به پنل درخواست مغازه</a><p><button id="logout">خروج از حساب</button></p></div><div id="message" role="status" aria-live="polite"></div><p class="muted">هر حساب فقط به داده‌های مجاز خودش دسترسی خواهد داشت. پرداخت و اجاره واقعی هنوز فعال نیست.</p></section></main><script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.10/dist/umd/supabase.min.js"></script><script>
 const $=id=>document.getElementById(id);const key=window.MALL_SUPABASE_PUBLISHABLE_KEY,url=window.MALL_SUPABASE_URL;const ready=!!(window.supabase&&url&&key&&!key.startsWith('REPLACE_'));let client=null;
 function msg(text,ok=false){$('message').className=ok?'ok':'warning';$('message').textContent=text}
