@@ -49,7 +49,7 @@ html body #note{font-size:12px!important;opacity:.92!important;margin-top:15px!i
 <h1 id="title">Login</h1><p id="intro">Sign in to your PESIVIA marketplace account.</p>
 <div id="forms"><label for="email" id="email-label">Email</label><input id="email" type="email" autocomplete="email" inputmode="email">
 <label for="password" id="password-label">Password</label><input id="password" type="password" autocomplete="current-password" minlength="8">
-<div id="signup-extra" hidden><label for="confirm-password" id="confirm-label">Confirm Password</label><input id="confirm-password" type="password" autocomplete="new-password" minlength="8"></div><div class="actions"><button class="action primary" id="login">Log In</button><a class="action" id="signup" href="pesivia-signup.html">Create Account</a><button class="action" id="reset">Forgot Password?</button><button class="action" id="cancel-signup" hidden>Back to Login</button></div></div>
+<div class="actions"><button class="action primary" id="login">Log In</button><a class="action" id="signup" href="./pesivia-signup.html" role="button">Create Account</a><button class="action" id="reset">Forgot Password?</button></div></div>
 <div id="account" hidden></div>
 <div id="message" role="status" aria-live="polite"></div><p class="note" id="note">Store access depends on seller approval. Payments and rentals are not yet active.</p>
 </section></main>
@@ -61,17 +61,17 @@ const translations={
 en:{back:'← Back',titleLogin:'Login',titleAccount:'My Account',intro:'Sign in to your PESIVIA marketplace account.',email:'Email',password:'Password',login:'Log In',signup:'Create Account',reset:'Forgot Password?',dashboard:'Open My Store',logout:'Log Out',signed:'Signed in as:',note:'Store access depends on seller approval. Payments and rentals are not yet active.',missing:'Enter your email address.',short:'Password must contain at least 8 characters.',success:'Signed in successfully.',sent:'Check your email for the next step.',resetSent:'If this email is registered, recovery instructions will be sent.',connection:'Login service is not available. Please try again later.',error:'Connection error: '},
 fa:{back:'← بازگشت',titleLogin:'ورود',titleAccount:'حساب من',intro:'برای ورود به حساب بازار PESIVIA اطلاعات خود را وارد کنید.',email:'ایمیل',password:'رمز عبور',login:'ورود',signup:'ایجاد حساب',reset:'بازیابی رمز',dashboard:'ورود به فروشگاه من',logout:'خروج از حساب',signed:'وارد شده با:',note:'دسترسی به فروشگاه به تأیید فروشنده بستگی دارد. پرداخت و اجاره هنوز فعال نیست.',missing:'ایمیل خود را وارد کنید.',short:'رمز عبور باید حداقل ۸ کاراکتر باشد.',success:'ورود موفق بود.',sent:'برای مرحله بعد ایمیل خود را بررسی کنید.',resetSent:'اگر ایمیل ثبت شده باشد، راهنمای بازیابی ارسال می‌شود.',connection:'خدمات ورود در دسترس نیست. دوباره تلاش کنید.',error:'خطای ارتباط: '},
 es:{back:'← Volver',titleLogin:'Iniciar sesión',titleAccount:'Mi cuenta',intro:'Accede a tu cuenta del mercado PESIVIA.',email:'Correo electrónico',password:'Contraseña',login:'Entrar',signup:'Crear cuenta',reset:'¿Olvidaste tu contraseña?',dashboard:'Abrir mi tienda',logout:'Cerrar sesión',signed:'Sesión iniciada como:',note:'El acceso a la tienda requiere aprobación. Los pagos y alquileres aún no están activos.',missing:'Introduce tu correo.',short:'La contraseña debe tener al menos 8 caracteres.',success:'Sesión iniciada.',sent:'Revisa tu correo electrónico.',resetSent:'Si existe esta cuenta, recibirás instrucciones.',connection:'El inicio de sesión no está disponible.',error:'Error de conexión: '}};
-let lang='en',currentUser=null,client=null,signupMode=false;
+let lang='en',currentUser=null,client=null;
 try{const stored=localStorage.getItem('pesivia-market-language')||localStorage.getItem('wvm-language');if(translations[stored])lang=stored}catch(e){}
 const t=k=>translations[lang][k]||translations.en[k];
 function render(){
  document.documentElement.lang=lang;document.documentElement.dir=lang==='fa'?'rtl':'ltr';
  $('language').value=lang;$('back').textContent=t('back');
- $('title').textContent=signupMode?(lang==='fa'?'ایجاد حساب':lang==='es'?'Crear cuenta':'Create Account'):t(currentUser?'titleAccount':'titleLogin');
- $('intro').hidden=!!currentUser||signupMode;$('intro').textContent=t('intro');
+ $('title').textContent=t(currentUser?'titleAccount':'titleLogin');
+ $('intro').hidden=!!currentUser;$('intro').textContent=t('intro');
  $('email-label').textContent=t('email');$('password-label').textContent=t('password');
  for(const id of ['login','signup','reset'])$(id).textContent=t(id);
- $('note').textContent=t('note');$('signup-extra').hidden=!signupMode;$('confirm-label').textContent=lang==='fa'?'تأیید رمز عبور':lang==='es'?'Confirmar contraseña':'Confirm Password';$('login').hidden=signupMode;$('reset').hidden=signupMode;$('cancel-signup').hidden=!signupMode;$('cancel-signup').textContent=lang==='fa'?'بازگشت به ورود':lang==='es'?'Volver al inicio':'Back to Login';
+ $('note').textContent=t('note');
  $('forms').style.display=currentUser?'none':'block';
 }
 function message(key,raw){$('message').textContent=raw||t(key)}
