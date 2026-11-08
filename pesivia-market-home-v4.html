@@ -140,11 +140,14 @@ document.getElementById('openStore').onclick=()=>location.href='pesivia-services
 document.getElementById('openSearch').onclick=()=>openTool('search');
 document.getElementById('closeStorePanel').onclick=mobileHome;
 
-document.querySelectorAll('[data-extra]').forEach(b=>b.onclick=()=>{if(b.dataset.extra==='all')location.href='pesivia-store-directory.html?lang='+encodeURIComponent(document.getElementById('languageSelect').value);else mobileStore()});
+document.querySelectorAll('[data-extra]').forEach(b=>b.onclick=()=>{if(b.dataset.extra==='all')location.href='pesivia-store-directory.html?lang='+encodeURIComponent(document.getElementById('languageSelect').value)+'&from='+encodeURIComponent(location.href);else mobileStore()});
 document.querySelectorAll('[data-tool]').forEach(b=>b.onclick=()=>openTool(b.dataset.tool));
-document.querySelectorAll('[data-category]').forEach(b=>b.onclick=()=>location.href='pesivia-store-directory.html?market='+encodeURIComponent(b.dataset.category)+'&lang='+encodeURIComponent(document.getElementById('languageSelect').value));
+document.querySelectorAll('[data-category]').forEach(b=>b.onclick=()=>location.href='pesivia-store-directory.html?market='+encodeURIComponent(b.dataset.category)+'&lang='+encodeURIComponent(document.getElementById('languageSelect').value)+'&from='+encodeURIComponent(location.href));
 const mobileOriginalLanguage=pesiviaSetLanguage;
 pesiviaSetLanguage=function(lang){mobileOriginalLanguage(lang);const words=navLabels[lang]||navLabels.en;document.getElementById('storePanelTitle').textContent=words.panel;document.querySelector('#storePanel h3').textContent=words.categories;document.getElementById('closeStorePanel').textContent=words.back};
 pesiviaSetLanguage(document.getElementById('languageSelect').value);
 mobileHome();
+
+// Preserve the exact entry page for Store Directory's Back button.
+document.addEventListener('click',event=>{const anchor=event.target.closest?.('a[href]');if(!anchor)return;const url=new URL(anchor.href,location.href);if(url.origin===location.origin&&url.pathname.endsWith('/pesivia-store-directory.html')){url.searchParams.set('from',location.href);anchor.href=url.href}},true);
 </script></body></html>
