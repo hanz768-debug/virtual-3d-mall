@@ -24,6 +24,29 @@ html body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:no
 html body>header,html body>main,html body>footer{position:relative;z-index:1}
 html body :is(.card,.panel,.product,.item,.notice,section){background-color:rgba(8,24,46,.22)!important}
 @media(max-width:700px){html body{background-attachment:scroll!important}html body::before{background-position:center top}}
+</style><style id="pesivia-mobile-background-fix">
+/* Preserve full sharp mall photo on iOS: no blurred full-page layers */
+html{background:#091224!important}
+html body{background-attachment:scroll!important;background-position:center top!important;background-size:cover!important;min-height:100svh!important}
+html body main :is(.card,.panel,.product,.item,.notice,.status,section,.message,.warning,.ok){
+background:rgba(8,22,42,.10)!important;
+-webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+border:1px solid rgba(255,255,255,.7)!important;
+box-shadow:0 2px 7px rgba(0,0,0,.15)!important;
+}
+html body :is(button,.btn,a.btn,a.button,.actions a,.card a,.link,header a){
+background:rgba(8,23,45,.28)!important;
+-webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+}
+html body main :is(h1,h2,h3,p,.sub,.muted,.price,.status,.num){text-shadow:0 2px 4px #000,0 0 7px #000!important}
+@media(max-width:700px){
+html body main{padding:12px!important}
+html body main .grid{gap:9px!important;grid-template-columns:1fr!important}
+html body main .grid>.card{padding:11px 13px!important;margin:0!important;min-height:0!important}
+html body main .grid>.card h2,html body main .grid>.card h3{font-size:19px!important;margin:2px 0 7px!important}
+html body main .grid>.card p{margin:5px 0!important}
+html body main .grid>.card :is(button,.btn,a){padding:8px 12px!important}
+}
 </style></head><body><header><strong>🏬 World Virtual Mall — My Store</strong> · <a href="auth.html">Seller login</a> · <a href="index.html">Home</a></header><main><section><h1>My storefront</h1><p id="message">Checking your account...</p><div id="store"></div></section><div id="controls" hidden><section><h2>🎨 Storefront appearance</h2><p>Choose colors for your store facade and sign. Changes are saved for review and will not appear publicly until approved.</p><label>Facade color <input type="color" id="facade-color" value="#254c78"></label><label>Sign color <input type="color" id="sign-color" value="#173653"></label><div id="style-preview" style="padding:24px;border-radius:12px;background:#254c78;text-align:center"><strong id="style-sign" style="display:block;padding:18px;background:#173653;color:white;border-radius:6px"></strong></div><button id="save-style" type="button">Save design for review</button><p id="style-status" role="status"></p></section><section><h2>🖼️ Store logo & storefront photo</h2><p>Upload a JPEG, PNG or WebP image (maximum 5 MB). Images stay private until reviewed by the mall administrator.</p><label>Image type<select id="image-kind"><option value="logo">Store logo</option><option value="storefront">Storefront photo</option></select></label><label>Choose image<input type="file" id="store-image" accept="image/jpeg,image/png,image/webp"></label><button id="upload-image" type="button">Upload image for review</button><p id="image-status" role="status"></p><div id="store-images"></div></section><section><h2>Real store videos</h2><p>Upload a real video of your storefront or shop interior (MP4, WebM or MOV, up to 100 MB). Videos are private and require approval before public display.</p><label>Video type<select id="kind"><option value="storefront">Storefront</option><option value="interior">Inside the shop</option></select></label><label>Choose video<input type="file" id="video" accept="video/mp4,video/webm,video/quicktime"></label><button id="upload">Upload video</button><div id="videos"></div></section><section><h2>Products</h2><p>New products are saved as drafts. Prices are in USD.</p><label>Product name<input id="title" maxlength="160"></label><label>Description<textarea id="description" maxlength="2000"></textarea></label><label>Price (USD)<input id="price" type="number" min="0" step=".01"></label><button id="add">Save draft product</button><div id="products"></div></section></div></main><script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.10/dist/umd/supabase.min.js"></script><script>
 const msg=document.getElementById('message'),controls=document.getElementById('controls');
 const api=window.supabase&&window.MALL_SUPABASE_PUBLISHABLE_KEY&&!window.MALL_SUPABASE_PUBLISHABLE_KEY.startsWith('REPLACE_')?window.supabase.createClient(window.MALL_SUPABASE_URL,window.MALL_SUPABASE_PUBLISHABLE_KEY):null;
