@@ -1,0 +1,30 @@
+/* PESIVIA inner pages: compact black backing for readable white text, clear mall photo */
+html body main :is(h1,h2,h3,p,label,.sub,.muted,.status,.num,.price,.total,.note),
+html body main :is(.panel,.card,.product,.item,section) :is(strong,small){
+color:#fff!important;-webkit-text-fill-color:#fff!important;
+text-shadow:0 1px 3px #000!important;
+}
+html body main :is(h1,h2,h3,label,.sub,.muted,.status,.num,.price,.total,.note){
+background:rgba(0,0,0,.74)!important;border-radius:6px!important;
+padding:3px 6px!important;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+}
+html body main :is(h1,h2,h3,label){width:fit-content!important;max-width:100%!important}
+html body main p{background:transparent!important}
+html body main p:not(:has(a,button,input)) {line-height:1.65!important}
+html body main :is(button,.btn,a.btn,.action-link,a.action,.actions a),
+html body>header :is(button,a,select){
+background:rgba(0,0,0,.78)!important;color:#fff!important;-webkit-text-fill-color:#fff!important;
+border:1px solid rgba(255,255,255,.72)!important;border-radius:12px!important;
+text-shadow:0 1px 2px #000!important;box-shadow:none!important;
+-webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+}
+html body main :is(button,.btn,a.btn,.action-link,a.action,.actions a) :is(span,strong){
+color:#fff!important;-webkit-text-fill-color:#fff!important;background:transparent!important;
+}
+html body main :is(.panel,.card,.product,.item,.notice,section){
+-webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+background:rgba(5,15,30,.10)!important;
+}
+html body main :is(input,textarea,select){background:rgba(0,0,0,.68)!important;color:#fff!important;-webkit-text-fill-color:#fff!important;border:1px solid #ffffffa8!important}
+html body main input::placeholder{color:#eee!important;-webkit-text-fill-color:#eee!important}
+html body main :is(button,a,input,select):focus-visible{outline:2px solid white!important;outline-offset:2px!important}
