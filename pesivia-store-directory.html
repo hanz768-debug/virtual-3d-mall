@@ -12,9 +12,11 @@ const suppliedSource=validSource(new URLSearchParams(location.search).get('from'
 const referrerSource=validSource(document.referrer);
 if(suppliedSource||referrerSource){try{sessionStorage.setItem(backKey,suppliedSource||referrerSource)}catch(e){}}
 document.getElementById('backButton').onclick=()=>{
- let stored=null;try{stored=validSource(sessionStorage.getItem(backKey))}catch(e){}
- const destination=suppliedSource||referrerSource||stored;
+ // Prefer the browser's actual previous page, not a hardcoded destination.
+ if(referrerSource&&history.length>1){history.back();return}
+ const destination=suppliedSource||referrerSource;
  if(destination){location.assign(destination);return}
+ // A previously saved entry may belong to another visit; do not use it.
  if(history.length>1){history.back();return}
  location.assign('pesivia-services-hub.html?lang='+encodeURIComponent(lang));
 };setLanguage(lang);load();
