@@ -66,10 +66,19 @@ html body>header #wvm-language-switch{flex:0 0 auto!important;order:1!important;
 html body>header #wvm-language-switch select{max-width:100px!important;width:auto!important;min-width:0!important;background:transparent!important;color:white!important;border:0!important;font:700 14px system-ui!important;padding:6px 2px!important}
 html body>header strong{order:2!important;flex-basis:100%!important}
 html body>header a{order:3!important}
-</style></head><body><header><strong id="seller-auth-heading">🏬 Seller Login</strong><a id="seller-auth-markets" href="pesivia-services-hub.html">PESIVIA Home ↩</a></header><main><section><h2>حساب فروشنده</h2><p class="muted">ثبت‌نام با ایمیل و رمز عبور. برای دریافت مغازه، تأیید مدیریت جداگانه لازم است.</p><div id="forms"><label for="email">ایمیل</label><input id="email" type="email" autocomplete="email"><label for="password">رمز عبور</label><input id="password" type="password" autocomplete="current-password" minlength="8"><button id="signup">ایجاد حساب</button><button id="login">ورود</button><button id="reset">بازیابی رمز</button></div><div id="account"><p id="who"></p><a href="seller.html">رفتن به پنل درخواست مغازه</a><p><button id="logout">خروج از حساب</button></p></div><div id="message" role="status" aria-live="polite"></div><p class="muted">هر حساب فقط به داده‌های مجاز خودش دسترسی خواهد داشت. پرداخت و اجاره واقعی هنوز فعال نیست.</p></section></main><script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.10/dist/umd/supabase.min.js"></script><script>
+</style><style id="pesivia-account-login-polish">
+html body main{max-width:620px!important;margin:0 auto!important}
+html body main section{padding:22px 18px!important;background:rgba(6,19,37,.25)!important}
+html body #account{padding:8px 0!important}
+html body #account #who{font-size:16px!important;font-weight:700!important;line-height:1.5!important}
+html body #seller-dashboard-link{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:48px!important;padding:12px 18px!important;margin:12px 0!important;background:rgba(9,33,61,.52)!important;border:1px solid #ffffffb8!important;border-radius:14px!important;color:white!important;font-weight:750!important;text-decoration:none!important;text-shadow:0 1px 3px #000!important}
+html body #logout{min-height:44px!important;padding:10px 18px!important}
+html body #forms input{width:100%!important;max-width:100%!important}
+html body #forms button{min-height:44px!important}
+</style></head><body><header><strong id="seller-auth-heading">🏬 Seller Login</strong><a id="seller-auth-markets" href="pesivia-services-hub.html">PESIVIA Home ↩</a></header><main><section><h2>حساب فروشنده</h2><p class="muted">ثبت‌نام با ایمیل و رمز عبور. برای دریافت مغازه، تأیید مدیریت جداگانه لازم است.</p><div id="forms"><label for="email">ایمیل</label><input id="email" type="email" autocomplete="email"><label for="password">رمز عبور</label><input id="password" type="password" autocomplete="current-password" minlength="8"><button id="signup">ایجاد حساب</button><button id="login">ورود</button><button id="reset">بازیابی رمز</button></div><div id="account"><p id="who"></p><a id="seller-dashboard-link" href="my-store.html">Open My Store</a><p><button id="logout">خروج از حساب</button></p></div><div id="message" role="status" aria-live="polite"></div><p class="muted">هر حساب فقط به داده‌های مجاز خودش دسترسی خواهد داشت. پرداخت و اجاره واقعی هنوز فعال نیست.</p></section></main><script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.10/dist/umd/supabase.min.js"></script><script>
 const $=id=>document.getElementById(id);const key=window.MALL_SUPABASE_PUBLISHABLE_KEY,url=window.MALL_SUPABASE_URL;const ready=!!(window.supabase&&url&&key&&!key.startsWith('REPLACE_'));let client=null;
 function msg(text,ok=false){$('message').className=ok?'ok':'warning';$('message').textContent=text}
-function show(user){$('forms').style.display=user?'none':'block';$('account').style.display=user?'block':'none';$('who').textContent=user?(localStorage.getItem('wvm-language')==='fa'?'وارد شده با: ':'Signed in as: ')+user.email:''}
+function show(user){$('forms').style.display=user?'none':'block';$('account').style.display=user?'block':'none';$('who').textContent=user?(localStorage.getItem('wvm-language')==='fa'?'وارد شده با: ':'Signed in as: ')+user.email:'';const h=document.querySelector('main h2');if(h)h.textContent=user?'My Account':'Seller Login';const intro=document.querySelector('main p.muted');if(intro)intro.style.display=user?'none':''}
 if(!ready){msg('اتصال ورود هنوز فعال نشده است. برای راه‌اندازی، کلید Publishable پروژه World Virtual Mall باید در تنظیمات سایت قرار گیرد. رمز پایگاه داده یا کلید Secret لازم نیست.');document.querySelectorAll('button').forEach(b=>b.disabled=true)}
 else{client=window.supabase.createClient(url,key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});client.auth.getUser().then(({data,error})=>{if(error)msg(error.message);show(data?.user)});client.auth.onAuthStateChange((event,session)=>show(session?.user))}
 async function act(type){if(!client)return;const email=$('email').value.trim(),password=$('password').value;if(!email){msg('ایمیل را وارد کنید');return}if(type!=='reset'&&password.length<8){msg('رمز عبور باید حداقل ۸ کاراکتر باشد');return}document.querySelectorAll('button').forEach(b=>b.disabled=true);try{let result;if(type==='signup')result=await client.auth.signUp({email,password,emailRedirectTo:location.origin+location.pathname});else if(type==='login')result=await client.auth.signInWithPassword({email,password});else result=await client.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});if(result.error)msg(result.error.message);else if(type==='signup')msg('درخواست ثبت‌نام ارسال شد. اگر تأیید ایمیل فعال باشد، ایمیل خود را بررسی کنید.',true);else if(type==='reset')msg('اگر این ایمیل ثبت شده باشد، راهنمای بازیابی ارسال می‌شود.',true);else msg('ورود موفق بود.',true)}catch(e){msg('خطای ارتباط: '+e.message)}finally{document.querySelectorAll('button').forEach(b=>b.disabled=false)}}
@@ -105,6 +114,19 @@ if(who){const match=who.textContent.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}
 busy=false;
 }
 function init(){sync();document.getElementById('wvm-lang')?.addEventListener('change',sync);const who=document.getElementById('who');if(who)new MutationObserver(sync).observe(who,{childList:true,characterData:true,subtree:true});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script><script id="pesivia-account-localize">
+(function(){
+function update(){
+const fa=document.getElementById('wvm-lang')?.value==='fa';
+const dashboard=document.getElementById('seller-dashboard-link'),who=document.getElementById('who'),h=document.querySelector('main h2'),intro=document.querySelector('main p.muted');
+if(dashboard)dashboard.textContent=fa?'ورود به فروشگاه من':'Open My Store';
+if(who){const email=who.textContent.match(/[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}/)?.[0];if(email)who.textContent=(fa?'وارد شده با: ':'Signed in as: ')+email}
+if(h)h.textContent=fa?(document.getElementById('account').style.display==='block'?'حساب من':'ورود فروشنده'):(document.getElementById('account').style.display==='block'?'My Account':'Seller Login');
+if(intro&&document.getElementById('account').style.display==='block')intro.style.display='none';
+}
+function init(){update();document.getElementById('wvm-lang')?.addEventListener('change',update);const target=document.getElementById('account');if(target)new MutationObserver(update).observe(target,{attributes:true,attributeFilter:['style']});}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script></body></html>
