@@ -4,7 +4,7 @@ const status=document.getElementById('status'),dashboard=document.getElementById
 try{
 if(!window.supabase||!window.MALL_SUPABASE_URL)throw Error('Authentication service unavailable');
 const api=window.supabase.createClient(window.MALL_SUPABASE_URL,window.MALL_SUPABASE_PUBLISHABLE_KEY);
-const {data:{user},error:authError}=await api.auth.getUser();if(authError)throw authError;
+const {data:{user},error:authError}=await api.auth.getUser();if(authError){if(/session missing|auth session missing/i.test(authError.message||'')){const a=document.createElement('a');a.href='auth.html';a.textContent='Sign in to PESIVIA to access the administrator dashboard';status.replaceChildren(a);return}throw authError;}
 if(!user){const a=document.createElement('a');a.href='auth.html';a.textContent='Administrator sign-in required';status.replaceChildren(a);return}
 const {data:allowed,error:accessError}=await api.rpc('mall_is_admin');
 if(accessError||allowed!==true){status.textContent='Access denied. This account is not a marketplace administrator.';return}
@@ -34,6 +34,6 @@ document.getElementById('product-review-refresh').onclick=reviewProducts;await r
 const definitions=[['Visible approved sellers','mall_sellers',q=>q.eq('status','approved')],['Visible published products','mall_products',q=>q.eq('status','published')],['Visible occupied stores','mall_units',q=>q.eq('status','occupied')],['Visible open support tickets','mall_support_tickets',q=>q.eq('status','open')],['Visible product requests','mall_order_requests',q=>q],['Visible customer messages','mall_request_messages',q=>q]];
 async function refresh(){metrics.replaceChildren();status.textContent='Loading administrator overview…';const results=await Promise.all(definitions.map(async([label,table,filter])=>{try{const {count,error}=await filter(api.from(table).select('*',{count:'exact',head:true}));if(error)throw error;return {label,count}}catch(e){return {label,error:e.message||'Unavailable'}}}));for(const x of results){const box=document.createElement('div');box.className='metric';const label=document.createElement('span');label.textContent=x.label;const count=document.createElement('strong');count.textContent=x.error?'—':String(x.count??0);box.append(label,count);if(x.error){const small=document.createElement('small');small.textContent='Unavailable';box.append(small)}metrics.append(box)}status.textContent='Administrator access verified. Overview updated.'}
 document.getElementById('refresh').onclick=refresh;await refresh();
-}catch(e){status.textContent='Unable to open admin dashboard: '+(e.message||'Unknown error')}
+}catch(e){if(/session missing|auth session missing/i.test(e.message||'')){const a=document.createElement('a');a.href='auth.html';a.textContent='Sign in to PESIVIA to access the administrator dashboard';status.replaceChildren(a)}else status.textContent='Unable to open admin dashboard: '+(e.message||'Unknown error')}
 })();
 </script></body></html>
