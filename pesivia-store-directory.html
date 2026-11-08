@@ -24,6 +24,29 @@ html body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:no
 html body>header,html body>main,html body>footer{position:relative;z-index:1}
 html body :is(.card,.panel,.product,.item,.notice,section){background-color:rgba(8,24,46,.22)!important}
 @media(max-width:700px){html body{background-attachment:scroll!important}html body::before{background-position:center top}}
+</style><style id="pesivia-mobile-background-fix">
+/* Preserve full sharp mall photo on iOS: no blurred full-page layers */
+html{background:#091224!important}
+html body{background-attachment:scroll!important;background-position:center top!important;background-size:cover!important;min-height:100svh!important}
+html body main :is(.card,.panel,.product,.item,.notice,.status,section,.message,.warning,.ok){
+background:rgba(8,22,42,.10)!important;
+-webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+border:1px solid rgba(255,255,255,.7)!important;
+box-shadow:0 2px 7px rgba(0,0,0,.15)!important;
+}
+html body :is(button,.btn,a.btn,a.button,.actions a,.card a,.link,header a){
+background:rgba(8,23,45,.28)!important;
+-webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+}
+html body main :is(h1,h2,h3,p,.sub,.muted,.price,.status,.num){text-shadow:0 2px 4px #000,0 0 7px #000!important}
+@media(max-width:700px){
+html body main{padding:12px!important}
+html body main .grid{gap:9px!important;grid-template-columns:1fr!important}
+html body main .grid>.card{padding:11px 13px!important;margin:0!important;min-height:0!important}
+html body main .grid>.card h2,html body main .grid>.card h3{font-size:19px!important;margin:2px 0 7px!important}
+html body main .grid>.card p{margin:5px 0!important}
+html body main .grid>.card :is(button,.btn,a){padding:8px 12px!important}
+}
 </style></head><body><header><div class="headerLeft"><button id="backButton" type="button">← Back</button><a href="pesivia-market-home-v4.html"><strong>🌐 PESIVIA MARKET</strong></a></div><div class="topActions"><label for="language" data-i="language">Language</label><select id="language"><option value="en">English</option><option value="fa">فارسی</option><option value="es">Español</option></select></div></header><main><h1 data-i="title">Store Directory</h1><p class="sub" data-i="intro">These are actual store units registered in the PESIVIA marketplace database. A listed unit does not necessarily have products or online checkout enabled.</p><div class="toolbar"><select id="market" aria-label="Market"><option value="jewelry" data-i="jewelry">💎 Jewelry</option><option value="shoes" data-i="shoes">👟 Shoes</option><option value="beauty" data-i="beauty">💄 Beauty</option><option value="electronics" data-i="electronics">📱 Electronics</option><option value="sports" data-i="sports">🏀 Sports</option></select><input id="search" placeholder="Search store number, e.g. 003" aria-label="Search store"></div><p id="status" role="status"></p><div class="grid" id="grid"></div></main><footer data-i="footer">Preview · No checkout or payment on this page</footer><script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.10/dist/umd/supabase.min.js"></script><script>
 const words={en:{language:'Language',title:'Store Directory',intro:'These are actual store units registered in the PESIVIA marketplace database. A listed unit does not necessarily have products or online checkout enabled.',jewelry:'💎 Jewelry',shoes:'👟 Shoes',beauty:'💄 Beauty',electronics:'📱 Electronics',sports:'🏀 Sports',back:'← Back',footer:'Preview · No checkout or payment on this page',search:'Search store number, e.g. 003',loading:'Loading registered stores…',offline:'Marketplace connection is unavailable.',error:'Unable to load stores: ',unit:'Store ',occupied:'Assigned',reserved:'Reserved',available:'Available',view:'View Store',count:' stores shown',empty:'No matching stores.'},fa:{language:'زبان',title:'فهرست فروشگاه‌ها',intro:'این‌ها واحدهای ثبت‌شده واقعی بازار PESIVIA هستند. وجود واحد لزوماً به معنی فعال بودن محصولات یا پرداخت آنلاین نیست.',jewelry:'💎 جواهرات',shoes:'👟 کفش',beauty:'💄 زیبایی',electronics:'📱 الکترونیک',sports:'🏀 ورزش',back:'← بازگشت',footer:'پیش‌نمایش · پرداخت در این صفحه فعال نیست',search:'جستجوی شماره مغازه، مانند 003',loading:'در حال دریافت فروشگاه‌ها…',offline:'اتصال به پایگاه داده بازار در دسترس نیست.',error:'خطا در دریافت فروشگاه‌ها: ',unit:'مغازه ',occupied:'واگذارشده',reserved:'رزرو شده',available:'آماده واگذاری',view:'مشاهده مغازه',count:' مغازه نمایش داده می‌شود',empty:'فروشگاهی یافت نشد.'},es:{language:'Idioma',title:'Directorio de tiendas',intro:'Estas son unidades reales registradas en PESIVIA. Una unidad no implica que tenga productos o pagos activos.',jewelry:'💎 Joyería',shoes:'👟 Calzado',beauty:'💄 Belleza',electronics:'📱 Electrónica',sports:'🏀 Deportes',back:'← Volver',footer:'Vista previa · Sin pagos en esta página',search:'Buscar número de tienda, p. ej. 003',loading:'Cargando tiendas…',offline:'La conexión al mercado no está disponible.',error:'Error al cargar: ',unit:'Tienda ',occupied:'Asignada',reserved:'Reservada',available:'Disponible',view:'Ver tienda',count:' tiendas',empty:'No se encontraron tiendas.'}};
 const params=new URLSearchParams(location.search),select=document.getElementById('market'),search=document.getElementById('search'),grid=document.getElementById('grid'),status=document.getElementById('status'),langControl=document.getElementById('language');if(['jewelry','shoes','beauty','electronics','sports'].includes(params.get('market')))select.value=params.get('market');search.value=params.get('q')||'';
