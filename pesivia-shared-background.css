@@ -4,3 +4,24 @@ body{min-height:100vh;background:linear-gradient(180deg,rgba(5,11,26,.77),rgba(6
 main{position:relative}
 main>.panel,main>.card,main>.notice,main>.item,main>.tiles,main>.grid,main>.toolbar,main>.search,main>#grid,main>#items,main>#status,main>#total{position:relative}
 @media(max-width:700px){body{background-attachment:scroll!important;background-position:center top!important;background-size:auto 100vh!important}}
+
+/* Unified translucent glass controls throughout PESIVIA inner pages. */
+:where(button,.btn,.button,a.btn,a.button,input[type="button"],input[type="submit"],input[type="reset"],select){
+  background:linear-gradient(145deg,rgba(255,255,255,.23),rgba(120,169,214,.12))!important;
+  color:#fff!important;
+  border:1px solid rgba(255,255,255,.48)!important;
+  border-radius:13px!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.32),0 5px 18px rgba(0,0,0,.24)!important;
+  -webkit-backdrop-filter:blur(14px) saturate(155%);
+  backdrop-filter:blur(14px) saturate(155%);
+  text-shadow:0 1px 2px rgba(0,0,0,.55);
+  transition:background .18s,border-color .18s,transform .18s;
+}
+:where(button,.btn,.button,a.btn,a.button,input[type="button"],input[type="submit"],input[type="reset"]):hover{
+  background:linear-gradient(145deg,rgba(255,255,255,.34),rgba(128,184,237,.22))!important;
+  border-color:rgba(255,255,255,.8)!important;
+}
+:where(button,.btn,.button,a.btn,a.button,input[type="button"],input[type="submit"],input[type="reset"]):active{transform:scale(.98)}
+:where(button,.btn,.button,a.btn,a.button,select):focus-visible{outline:3px solid #f3d6ff;outline-offset:3px}
+:where(button,select):disabled{opacity:.55;cursor:not-allowed}
+@media(prefers-reduced-motion:reduce){:where(button,.btn,.button,a.btn,a.button){transition:none!important}}
