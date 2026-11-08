@@ -43,13 +43,13 @@ html body .panel .actions button,html body .panel .actions a{min-width:0!importa
 html body #reset{grid-column:1/-1!important;justify-self:center!important;width:min(100%,240px)!important}
 html body #note{font-size:12px!important;opacity:.92!important;margin-top:15px!important}
 @media(max-width:380px){html body .panel{padding:14px 12px!important}html body .panel .actions button{font-size:12px!important}}
-</style></head><body>
+</style><style id="pesivia-signup-form-fix">html body #signup-extra[hidden],html body #cancel-signup[hidden],html body #login[hidden],html body #reset[hidden]{display:none!important}html body #signup-extra label{display:block!important}html body #signup-extra input{width:100%!important;min-height:44px!important}</style></head><body>
 <header class="top"><button type="button" id="back">← Back</button><select id="language" aria-label="Language"><option value="en">English</option><option value="fa">فارسی</option><option value="es">Español</option></select></header>
 <main><div class="brand">🌐 PESIVIA Virtual Mall</div><section class="panel">
 <h1 id="title">Login</h1><p id="intro">Sign in to your PESIVIA marketplace account.</p>
 <div id="forms"><label for="email" id="email-label">Email</label><input id="email" type="email" autocomplete="email" inputmode="email">
 <label for="password" id="password-label">Password</label><input id="password" type="password" autocomplete="current-password" minlength="8">
-<div class="actions"><button class="action primary" id="login">Log In</button><button class="action" id="signup">Create Account</button><button class="action" id="reset">Forgot Password?</button></div></div>
+<div id="signup-extra" hidden><label for="confirm-password" id="confirm-label">Confirm Password</label><input id="confirm-password" type="password" autocomplete="new-password" minlength="8"></div><div class="actions"><button class="action primary" id="login">Log In</button><button class="action" id="signup">Create Account</button><button class="action" id="reset">Forgot Password?</button><button class="action" id="cancel-signup" hidden>Back to Login</button></div></div>
 <div id="account" hidden></div>
 <div id="message" role="status" aria-live="polite"></div><p class="note" id="note">Store access depends on seller approval. Payments and rentals are not yet active.</p>
 </section></main>
@@ -61,17 +61,17 @@ const translations={
 en:{back:'← Back',titleLogin:'Login',titleAccount:'My Account',intro:'Sign in to your PESIVIA marketplace account.',email:'Email',password:'Password',login:'Log In',signup:'Create Account',reset:'Forgot Password?',dashboard:'Open My Store',logout:'Log Out',signed:'Signed in as:',note:'Store access depends on seller approval. Payments and rentals are not yet active.',missing:'Enter your email address.',short:'Password must contain at least 8 characters.',success:'Signed in successfully.',sent:'Check your email for the next step.',resetSent:'If this email is registered, recovery instructions will be sent.',connection:'Login service is not available. Please try again later.',error:'Connection error: '},
 fa:{back:'← بازگشت',titleLogin:'ورود',titleAccount:'حساب من',intro:'برای ورود به حساب بازار PESIVIA اطلاعات خود را وارد کنید.',email:'ایمیل',password:'رمز عبور',login:'ورود',signup:'ایجاد حساب',reset:'بازیابی رمز',dashboard:'ورود به فروشگاه من',logout:'خروج از حساب',signed:'وارد شده با:',note:'دسترسی به فروشگاه به تأیید فروشنده بستگی دارد. پرداخت و اجاره هنوز فعال نیست.',missing:'ایمیل خود را وارد کنید.',short:'رمز عبور باید حداقل ۸ کاراکتر باشد.',success:'ورود موفق بود.',sent:'برای مرحله بعد ایمیل خود را بررسی کنید.',resetSent:'اگر ایمیل ثبت شده باشد، راهنمای بازیابی ارسال می‌شود.',connection:'خدمات ورود در دسترس نیست. دوباره تلاش کنید.',error:'خطای ارتباط: '},
 es:{back:'← Volver',titleLogin:'Iniciar sesión',titleAccount:'Mi cuenta',intro:'Accede a tu cuenta del mercado PESIVIA.',email:'Correo electrónico',password:'Contraseña',login:'Entrar',signup:'Crear cuenta',reset:'¿Olvidaste tu contraseña?',dashboard:'Abrir mi tienda',logout:'Cerrar sesión',signed:'Sesión iniciada como:',note:'El acceso a la tienda requiere aprobación. Los pagos y alquileres aún no están activos.',missing:'Introduce tu correo.',short:'La contraseña debe tener al menos 8 caracteres.',success:'Sesión iniciada.',sent:'Revisa tu correo electrónico.',resetSent:'Si existe esta cuenta, recibirás instrucciones.',connection:'El inicio de sesión no está disponible.',error:'Error de conexión: '}};
-let lang='en',currentUser=null,client=null;
+let lang='en',currentUser=null,client=null,signupMode=false;
 try{const stored=localStorage.getItem('pesivia-market-language')||localStorage.getItem('wvm-language');if(translations[stored])lang=stored}catch(e){}
 const t=k=>translations[lang][k]||translations.en[k];
 function render(){
  document.documentElement.lang=lang;document.documentElement.dir=lang==='fa'?'rtl':'ltr';
  $('language').value=lang;$('back').textContent=t('back');
- $('title').textContent=t(currentUser?'titleAccount':'titleLogin');
- $('intro').hidden=!!currentUser;$('intro').textContent=t('intro');
+ $('title').textContent=signupMode?(lang==='fa'?'ایجاد حساب':lang==='es'?'Crear cuenta':'Create Account'):t(currentUser?'titleAccount':'titleLogin');
+ $('intro').hidden=!!currentUser||signupMode;$('intro').textContent=t('intro');
  $('email-label').textContent=t('email');$('password-label').textContent=t('password');
  for(const id of ['login','signup','reset'])$(id).textContent=t(id);
- $('note').textContent=t('note');
+ $('note').textContent=t('note');$('signup-extra').hidden=!signupMode;$('confirm-label').textContent=lang==='fa'?'تأیید رمز عبور':lang==='es'?'Confirmar contraseña':'Confirm Password';$('login').hidden=signupMode;$('reset').hidden=signupMode;$('cancel-signup').hidden=!signupMode;$('cancel-signup').textContent=lang==='fa'?'بازگشت به ورود':lang==='es'?'Volver al inicio':'Back to Login';
  $('forms').style.display=currentUser?'none':'block';
 }
 function message(key,raw){$('message').textContent=raw||t(key)}
@@ -86,12 +86,12 @@ client.auth.onAuthStateChange((_event,session)=>{currentUser=session?.user||null
 client.auth.getUser().then(({data,error})=>{currentUser=data?.user||null;if(currentUser)goToStore();else render();if(error&&error.name!=='AuthSessionMissingError')message('connection')}).catch(()=>message('connection'));
 async function act(type){
  const email=$('email').value.trim(),password=$('password').value;
- if(!email){message('missing');return}if(type!=='reset'&&password.length<8){message('short');return}
+ if(!email){message('missing');$('email').focus();return}if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)){message('',lang==='fa'?'ایمیل معتبر وارد کنید.':'Enter a valid email address.');$('email').focus();return}if(type!=='reset'&&password.length<8){message('short');$('password').focus();return}if(type==='signup'&&password!==$('confirm-password').value){message('',lang==='fa'?'رمزهای عبور یکسان نیستند.':'Passwords do not match.');$('confirm-password').focus();return}
  ['login','signup','reset'].forEach(id=>$(id).disabled=true);
- try{let r;if(type==='login')r=await client.auth.signInWithPassword({email,password});else if(type==='signup')r=await client.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}});else r=await client.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});if(r.error)message('',r.error.message);else if(type==='login'){currentUser=r.data?.user||null;if(currentUser)goToStore();else message('connection');}else message(type==='signup'?'sent':'resetSent')}
+ try{let r;if(type==='login')r=await client.auth.signInWithPassword({email,password});else if(type==='signup')r=await client.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}});else r=await client.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});if(r.error)message('',r.error.message);else if(type==='login'){currentUser=r.data?.user||null;if(currentUser)goToStore();else message('connection');}else if(type==='signup'){if(r.data?.session&&r.data?.user){currentUser=r.data.user;goToStore()}else{message('',lang==='fa'?'حساب ایجاد شد. برای تأیید ایمیل، صندوق ورودی خود را بررسی کنید.':'Account request submitted. Check your email to confirm your account.');signupMode=false;render()}}else message('resetSent')}
  catch(e){message('',t('error')+e.message)}finally{['login','signup','reset'].forEach(id=>$(id).disabled=false)}
 }
-$('login').onclick=()=>act('login');$('signup').onclick=()=>act('signup');$('reset').onclick=()=>act('reset');
+$('login').onclick=()=>act('login');$('signup').onclick=()=>{if(!signupMode){signupMode=true;$('password').setAttribute('autocomplete','new-password');$('message').textContent='';render();return}act('signup')};$('cancel-signup').onclick=()=>{signupMode=false;$('password').setAttribute('autocomplete','current-password');$('message').textContent='';render()};$('reset').onclick=()=>act('reset');
 
 })();
 </script></body></html>
