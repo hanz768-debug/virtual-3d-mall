@@ -66,7 +66,7 @@ html body>header #wvm-language-switch{flex:0 0 auto!important;order:1!important;
 html body>header #wvm-language-switch select{max-width:100px!important;width:auto!important;min-width:0!important;background:transparent!important;color:white!important;border:0!important;font:700 14px system-ui!important;padding:6px 2px!important}
 html body>header strong{order:2!important;flex-basis:100%!important}
 html body>header a{order:3!important}
-</style></head><body><header><strong>🏬 ورود فروشندگان</strong><a href="index.html">بازارهای جهانی ↩</a></header><main><section><h2>حساب فروشنده</h2><p class="muted">ثبت‌نام با ایمیل و رمز عبور. برای دریافت مغازه، تأیید مدیریت جداگانه لازم است.</p><div id="forms"><label for="email">ایمیل</label><input id="email" type="email" autocomplete="email"><label for="password">رمز عبور</label><input id="password" type="password" autocomplete="current-password" minlength="8"><button id="signup">ایجاد حساب</button><button id="login">ورود</button><button id="reset">بازیابی رمز</button></div><div id="account"><p id="who"></p><a href="seller.html">رفتن به پنل درخواست مغازه</a><p><button id="logout">خروج از حساب</button></p></div><div id="message" role="status" aria-live="polite"></div><p class="muted">هر حساب فقط به داده‌های مجاز خودش دسترسی خواهد داشت. پرداخت و اجاره واقعی هنوز فعال نیست.</p></section></main><script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.10/dist/umd/supabase.min.js"></script><script>
+</style></head><body><header><strong id="seller-auth-heading">🏬 Seller Login</strong><a id="seller-auth-markets" href="pesivia-services-hub.html">PESIVIA Home ↩</a></header><main><section><h2>حساب فروشنده</h2><p class="muted">ثبت‌نام با ایمیل و رمز عبور. برای دریافت مغازه، تأیید مدیریت جداگانه لازم است.</p><div id="forms"><label for="email">ایمیل</label><input id="email" type="email" autocomplete="email"><label for="password">رمز عبور</label><input id="password" type="password" autocomplete="current-password" minlength="8"><button id="signup">ایجاد حساب</button><button id="login">ورود</button><button id="reset">بازیابی رمز</button></div><div id="account"><p id="who"></p><a href="seller.html">رفتن به پنل درخواست مغازه</a><p><button id="logout">خروج از حساب</button></p></div><div id="message" role="status" aria-live="polite"></div><p class="muted">هر حساب فقط به داده‌های مجاز خودش دسترسی خواهد داشت. پرداخت و اجاره واقعی هنوز فعال نیست.</p></section></main><script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.10/dist/umd/supabase.min.js"></script><script>
 const $=id=>document.getElementById(id);const key=window.MALL_SUPABASE_PUBLISHABLE_KEY,url=window.MALL_SUPABASE_URL;const ready=!!(window.supabase&&url&&key&&!key.startsWith('REPLACE_'));let client=null;
 function msg(text,ok=false){$('message').className=ok?'ok':'warning';$('message').textContent=text}
 function show(user){$('forms').style.display=user?'none':'block';$('account').style.display=user?'block':'none';$('who').textContent=user?(localStorage.getItem('wvm-language')==='fa'?'وارد شده با: ':'Signed in as: ')+user.email:''}
@@ -92,4 +92,19 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script><script id="pesivia-auth-live-lang">
 (function(){function apply(){const l=document.getElementById('wvm-lang'),who=document.getElementById('who');if(!l||!who)return;const update=()=>{const email=who.textContent.match(/[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}/)?.[0];if(email)who.textContent=(l.value==='fa'?'وارد شده با: ':'Signed in as: ')+email};l.addEventListener('change',update);update()}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply);else apply()})();
+</script><script id="pesivia-auth-translation-sync-v2">
+(function(){
+let busy=false;
+function sync(){
+if(busy)return;busy=true;
+const fa=document.getElementById('wvm-lang')?.value==='fa';
+const heading=document.getElementById('seller-auth-heading'),markets=document.getElementById('seller-auth-markets'),who=document.getElementById('who');
+if(heading)heading.textContent=fa?'🏬 ورود فروشندگان':'🏬 Seller Login';
+if(markets)markets.textContent=fa?'خانه PESIVIA ↩':'PESIVIA Home ↩';
+if(who){const match=who.textContent.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);if(match)who.textContent=(fa?'وارد شده با: ':'Signed in as: ')+match[0]}
+busy=false;
+}
+function init(){sync();document.getElementById('wvm-lang')?.addEventListener('change',sync);const who=document.getElementById('who');if(who)new MutationObserver(sync).observe(who,{childList:true,characterData:true,subtree:true});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
 </script></body></html>
