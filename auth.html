@@ -50,7 +50,7 @@ html body #note{font-size:12px!important;opacity:.92!important;margin-top:15px!i
 <div id="forms"><label for="email" id="email-label">Email</label><input id="email" type="email" autocomplete="email" inputmode="email">
 <label for="password" id="password-label">Password</label><input id="password" type="password" autocomplete="current-password" minlength="8">
 <div class="actions"><button class="action primary" id="login">Log In</button><button class="action" id="signup">Create Account</button><button class="action" id="reset">Forgot Password?</button></div></div>
-<div id="account"><p id="who"></p><div class="actions"><a class="action-link primary" id="seller-dashboard-link" href="my-store.html">Open My Store</a><button class="action" id="logout">Log Out</button></div></div>
+<div id="account"><p id="who"></p><div class="actions"><button type="button" class="action primary" id="seller-dashboard-link">Open My Store</button><button class="action" id="logout">Log Out</button></div></div>
 <div id="message" role="status" aria-live="polite"></div><p class="note" id="note">Store access depends on seller approval. Payments and rentals are not yet active.</p>
 </section></main>
 <script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.10/dist/umd/supabase.min.js"></script>
@@ -92,6 +92,7 @@ async function act(type){
  catch(e){message('',t('error')+e.message)}finally{['login','signup','reset'].forEach(id=>$(id).disabled=false)}
 }
 $('login').onclick=()=>act('login');$('signup').onclick=()=>act('signup');$('reset').onclick=()=>act('reset');
+$('seller-dashboard-link').onclick=()=>{window.location.assign(new URL('my-store.html',window.location.href).href)};
 $('logout').onclick=async()=>{const r=await client.auth.signOut();if(r.error)message('',r.error.message);else $('message').textContent=''};
 })();
 </script></body></html>
