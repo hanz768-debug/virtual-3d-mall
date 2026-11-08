@@ -27,3 +27,21 @@ main>.panel,main>.card,main>.notice,main>.item,main>.tiles,main>.grid,main>.tool
 :where(button,.btn,.button,a.btn,a.button,select):focus-visible{outline:3px solid #f3d6ff;outline-offset:3px}
 :where(button,select):disabled{opacity:.55}
 @media(prefers-reduced-motion:reduce){:where(button,.btn,.button,a.btn,a.button){transition:none!important}}
+
+/* Glass surfaces, not only buttons: store cards, search, headers and tiles. */
+:where(header,.card,.product,.item,.notice,.tiles>a,.tiles>button,.grid>a,.grid>button,.panel,.toolbar input,.toolbar select,input:not([type="checkbox"]):not([type="radio"]),textarea){
+ background:rgba(12,24,46,.14)!important;
+ background-image:none!important;
+ border:1px solid rgba(255,255,255,.42)!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 5px 16px rgba(0,0,0,.13)!important;
+ -webkit-backdrop-filter:blur(1px)!important;
+ backdrop-filter:blur(1px)!important;
+}
+:where(.card,.product,.item,.notice,.tiles>a,.tiles>button,.grid>a,.grid>button,.panel){border-radius:17px!important}
+:where(input:not([type="checkbox"]):not([type="radio"]),textarea)::placeholder{color:rgba(255,255,255,.77)!important}
+:where(.card,.product,.item,.notice,.tiles>a,.tiles>button) :where(h1,h2,h3,p,span){text-shadow:0 1px 4px rgba(0,0,0,.75)}
+/* Fixed full-screen photo stays behind the entire scrollable directory on iPhone. */
+@media(max-width:700px){
+ html{background:#091224!important}
+ body{background-attachment:fixed!important;background-size:cover!important;background-position:center center!important}
+}
