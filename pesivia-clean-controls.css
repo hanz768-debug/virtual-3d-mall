@@ -1,0 +1,17 @@
+/* PESIVIA CLEAN INNER PAGE: no black text strips, no blue-on-charcoal links */
+html body main p,html body main .sub,html body main .status,html body main .notice,html body main #intro,html body main #detail,html body main #status,html body main .muted{
+background:transparent!important;background-color:transparent!important;background-image:none!important;color:#18212d!important;-webkit-text-fill-color:#18212d!important;text-shadow:none!important;box-shadow:none!important}
+html body main :is(a,a:link,a:visited,.link,a.link,.back,a.back){color:#18212d!important;-webkit-text-fill-color:#18212d!important;background:#fff!important;border:1px solid #bac6d4!important;text-shadow:none!important}
+html body main :is(a,a:link,a:visited,.link,a.link,.back,a.back) :is(span,strong){color:#18212d!important;-webkit-text-fill-color:#18212d!important}
+html body main :is(button,button.action,.action-link,a.action-link,.btn){background:#fff!important;color:#18212d!important;-webkit-text-fill-color:#18212d!important;border:1px solid #bac6d4!important;text-shadow:none!important}
+html body main :is(input,textarea,select),html body .panel input,html body main .search input{
+background:#fff!important;color:#18212d!important;-webkit-text-fill-color:#18212d!important;border:1px solid #bac6d4!important;box-shadow:none!important;text-shadow:none!important}
+html body main :is(input,textarea)::placeholder{color:#64748b!important;-webkit-text-fill-color:#64748b!important}
+html body main :is(button.primary,button[type=submit]){background:#244e7b!important;color:#fff!important;-webkit-text-fill-color:#fff!important}
+html body main :is(.panel,.card,.item,section,article){background:#fff!important;color:#18212d!important;border:1px solid #dfe5ec!important;box-shadow:0 2px 10px #15233b0b!important}
+html body main :is(h1,h2,h3,h4,label,strong,small){color:#18212d!important;-webkit-text-fill-color:#18212d!important;text-shadow:none!important;background:transparent!important}
+html body main #request-panel{background:#fff!important}
+html body main #request-product{min-width:120px!important;max-width:100%!important}
+html body .brand{color:#18212d!important;-webkit-text-fill-color:#18212d!important;text-shadow:none!important}
+html body .panel .actions button.action,html body .panel .actions a.action-link{background:#fff!important;color:#18212d!important;-webkit-text-fill-color:#18212d!important;border:1px solid #bac6d4!important;text-shadow:none!important;box-shadow:none!important}
+html body .panel .actions button.primary{background:#244e7b!important;color:#fff!important;-webkit-text-fill-color:#fff!important}
