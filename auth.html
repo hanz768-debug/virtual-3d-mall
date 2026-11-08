@@ -49,7 +49,7 @@ html body #note{font-size:12px!important;opacity:.92!important;margin-top:15px!i
 <h1 id="title">Login</h1><p id="intro">Sign in to your PESIVIA marketplace account.</p>
 <div id="forms"><label for="email" id="email-label">Email</label><input id="email" type="email" autocomplete="email" inputmode="email">
 <label for="password" id="password-label">Password</label><input id="password" type="password" autocomplete="current-password" minlength="8">
-<div id="signup-extra" hidden><label for="confirm-password" id="confirm-label">Confirm Password</label><input id="confirm-password" type="password" autocomplete="new-password" minlength="8"></div><div class="actions"><button class="action primary" id="login">Log In</button><button class="action" id="signup">Create Account</button><button class="action" id="reset">Forgot Password?</button><button class="action" id="cancel-signup" hidden>Back to Login</button></div></div>
+<div id="signup-extra" hidden><label for="confirm-password" id="confirm-label">Confirm Password</label><input id="confirm-password" type="password" autocomplete="new-password" minlength="8"></div><div class="actions"><button class="action primary" id="login">Log In</button><a class="action" id="signup" href="pesivia-signup.html">Create Account</a><button class="action" id="reset">Forgot Password?</button><button class="action" id="cancel-signup" hidden>Back to Login</button></div></div>
 <div id="account" hidden></div>
 <div id="message" role="status" aria-live="polite"></div><p class="note" id="note">Store access depends on seller approval. Payments and rentals are not yet active.</p>
 </section></main>
@@ -91,7 +91,7 @@ async function act(type){
  try{let r;if(type==='login')r=await client.auth.signInWithPassword({email,password});else if(type==='signup')r=await client.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}});else r=await client.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});if(r.error)message('',r.error.message);else if(type==='login'){currentUser=r.data?.user||null;if(currentUser)goToStore();else message('connection');}else if(type==='signup'){if(r.data?.session&&r.data?.user){currentUser=r.data.user;goToStore()}else{message('',lang==='fa'?'حساب ایجاد شد. برای تأیید ایمیل، صندوق ورودی خود را بررسی کنید.':'Account request submitted. Check your email to confirm your account.');signupMode=false;render()}}else message('resetSent')}
  catch(e){message('',t('error')+e.message)}finally{['login','signup','reset'].forEach(id=>$(id).disabled=false)}
 }
-$('login').onclick=()=>act('login');$('signup').onclick=()=>{if(!signupMode){signupMode=true;$('password').setAttribute('autocomplete','new-password');$('message').textContent='';render();return}act('signup')};$('cancel-signup').onclick=()=>{signupMode=false;$('password').setAttribute('autocomplete','current-password');$('message').textContent='';render()};$('reset').onclick=()=>act('reset');
+$('login').onclick=()=>act('login');$('cancel-signup').onclick=()=>{signupMode=false;$('password').setAttribute('autocomplete','current-password');$('message').textContent='';render()};$('reset').onclick=()=>act('reset');
 
 })();
 </script></body></html>
