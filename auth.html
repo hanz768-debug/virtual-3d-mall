@@ -1,132 +1,75 @@
-<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ورود فروشندگان | World Virtual Mall</title><style>*{box-sizing:border-box}body{margin:0;background:#f3f6f9;color:#182b40;font:15px Tahoma,Arial}header{background:#10243a;color:white;padding:18px;display:flex;justify-content:space-between;gap:10px}a{color:inherit}main{max-width:530px;margin:32px auto;padding:0 16px}section{background:#fff;border-radius:18px;padding:24px;box-shadow:0 5px 24px #162d4114}label{display:block;margin:15px 0 7px;font-weight:bold}input{width:100%;border:1px solid #c8d3df;border-radius:9px;padding:13px;font:inherit}button{background:#e7bb6b;color:#16263a;border:0;border-radius:9px;padding:12px 15px;margin:12px 4px 0;cursor:pointer;font-weight:bold}button:disabled{opacity:.55}#message{margin-top:15px;line-height:1.8;white-space:pre-wrap}.muted{color:#66788a;line-height:1.9;font-size:13px}.warning{background:#fff2d5;border-radius:9px;padding:12px}.ok{background:#e3f6e9;border-radius:9px;padding:12px}#account{display:none}</style><link rel="stylesheet" href="pesivia-shared-background.css?v=56aa0e1b"><style id="pesivia-inner-glass-unified">
-/* PESIVIA inner-page visual system, preserving page functionality */
-html body{color:#fff!important;text-shadow:0 1px 3px rgba(0,0,0,.8)}
-html body header{background:rgba(9,21,44,.24)!important;border-bottom:1px solid rgba(255,255,255,.55)!important;backdrop-filter:blur(3px)!important}
-html body main :is(h1,h2,h3),html body main p,html body main label,html body main strong{color:#fff!important;text-shadow:0 2px 5px #000,0 0 6px #000}
-html body main :is(.card,.panel,.product,.item,.notice,.status,section,.message,.warning,.ok){
-background:rgba(10,26,49,.27)!important;color:#fff!important;border:1px solid rgba(255,255,255,.58)!important;
-border-radius:16px!important;-webkit-backdrop-filter:blur(3px)!important;backdrop-filter:blur(3px)!important;
-box-shadow:inset 0 1px rgba(255,255,255,.18),0 3px 9px #0002!important}
-html body :is(button,.btn,a.btn,a.button,.actions a,.card a,.link,header a){
-background:rgba(13,31,58,.27)!important;color:#fff!important;
-border:1px solid rgba(255,255,255,.7)!important;border-radius:12px!important;
--webkit-backdrop-filter:blur(2px)!important;backdrop-filter:blur(2px)!important;
-text-shadow:0 1px 3px #000!important;box-shadow:inset 0 1px #ffffff22!important}
-html body :is(input,select,textarea){background:rgba(10,23,45,.7)!important;color:#fff!important;border:1px solid #ffffff9c!important}
-html body input::placeholder,html body textarea::placeholder{color:#e0e5ed!important}
-html body :is(.sub,.muted,.price,.status,.num,.total,footer){color:#fff!important;text-shadow:0 1px 4px #000!important}
-html body main{position:relative}
-</style><style id="pesivia-mobile-background-fix">
-/* Preserve full sharp mall photo on iOS: no blurred full-page layers */
-html{background:#091224!important}
-html body{background-attachment:scroll!important;background-position:center top!important;background-size:cover!important;min-height:100svh!important}
-html body main :is(.card,.panel,.product,.item,.notice,.status,section,.message,.warning,.ok){
-background:rgba(8,22,42,.10)!important;
--webkit-backdrop-filter:none!important;backdrop-filter:none!important;
-border:1px solid rgba(255,255,255,.7)!important;
-box-shadow:0 2px 7px rgba(0,0,0,.15)!important;
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>PESIVIA | Login & My Account</title>
+<link rel="stylesheet" href="pesivia-shared-background.css?v=56aa0e1b">
+<style>
+*{box-sizing:border-box}html{min-width:0;overflow-x:hidden}body{margin:0;min-height:100svh;color:#fff;font:16px system-ui,-apple-system,sans-serif;overflow-x:hidden}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;background:rgba(5,17,34,.2);border-bottom:1px solid #ffffff70}
+.top button,.top select{color:#fff;background:rgba(5,17,34,.48);border:1px solid #ffffffb5;border-radius:14px;padding:11px 13px;font:700 15px system-ui;min-height:44px}
+.top select{max-width:125px}option{background:#13213a;color:#fff}
+main{max-width:540px;margin:24px auto;padding:0 15px 60px}
+.brand{text-align:center;font-weight:800;font-size:22px;text-shadow:0 2px 5px #000;margin:10px 0 22px}
+.panel{border:1px solid #ffffffa0;border-radius:20px;background:rgba(8,22,44,.19);padding:22px 19px;box-shadow:0 3px 12px #0002}
+h1{font-size:27px;margin:0 0 14px;text-shadow:0 2px 5px #000}
+p{line-height:1.6;text-shadow:0 2px 4px #000;overflow-wrap:anywhere}
+label{display:block;font-weight:650;margin:16px 0 7px}
+input{width:100%;min-height:48px;background:rgba(7,20,39,.72);color:white;border:1px solid #ffffffa6;border-radius:12px;padding:12px;font:inherit}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+button.action,.action-link{display:inline-flex;align-items:center;justify-content:center;min-height:45px;border:1px solid #ffffffa8;border-radius:12px;padding:10px 15px;color:#fff;background:rgba(8,26,52,.55);font:700 15px system-ui;text-decoration:none;cursor:pointer}
+button.primary,.action-link.primary{background:rgba(14,58,97,.72)}
+button:disabled{opacity:.5;cursor:wait}
+#account{display:none}#message:empty{display:none}#message{padding:12px;border-radius:11px;background:rgba(8,22,44,.7);margin-top:14px;overflow-wrap:anywhere}
+.note{font-size:13px;color:#fff;text-shadow:0 1px 4px #000;margin-top:20px}
+@media(max-width:390px){.panel{padding:17px 14px}.brand{font-size:19px}h1{font-size:24px}}
+</style></head><body>
+<header class="top"><button type="button" id="back">← Back</button><select id="language" aria-label="Language"><option value="en">English</option><option value="fa">فارسی</option><option value="es">Español</option></select></header>
+<main><div class="brand">🌐 PESIVIA Virtual Mall</div><section class="panel">
+<h1 id="title">Login</h1><p id="intro">Sign in to your PESIVIA marketplace account.</p>
+<div id="forms"><label for="email" id="email-label">Email</label><input id="email" type="email" autocomplete="email" inputmode="email">
+<label for="password" id="password-label">Password</label><input id="password" type="password" autocomplete="current-password" minlength="8">
+<div class="actions"><button class="action primary" id="login">Log In</button><button class="action" id="signup">Create Account</button><button class="action" id="reset">Forgot Password?</button></div></div>
+<div id="account"><p id="who"></p><div class="actions"><a class="action-link primary" id="seller-dashboard-link" href="my-store.html">Open My Store</a><button class="action" id="logout">Log Out</button></div></div>
+<div id="message" role="status" aria-live="polite"></div><p class="note" id="note">Store access depends on seller approval. Payments and rentals are not yet active.</p>
+</section></main>
+<script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.10/dist/umd/supabase.min.js"></script>
+<script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id);
+const translations={
+en:{back:'← Back',titleLogin:'Login',titleAccount:'My Account',intro:'Sign in to your PESIVIA marketplace account.',email:'Email',password:'Password',login:'Log In',signup:'Create Account',reset:'Forgot Password?',dashboard:'Open My Store',logout:'Log Out',signed:'Signed in as:',note:'Store access depends on seller approval. Payments and rentals are not yet active.',missing:'Enter your email address.',short:'Password must contain at least 8 characters.',success:'Signed in successfully.',sent:'Check your email for the next step.',resetSent:'If this email is registered, recovery instructions will be sent.',connection:'Login service is not available. Please try again later.',error:'Connection error: '},
+fa:{back:'← بازگشت',titleLogin:'ورود',titleAccount:'حساب من',intro:'برای ورود به حساب بازار PESIVIA اطلاعات خود را وارد کنید.',email:'ایمیل',password:'رمز عبور',login:'ورود',signup:'ایجاد حساب',reset:'بازیابی رمز',dashboard:'ورود به فروشگاه من',logout:'خروج از حساب',signed:'وارد شده با:',note:'دسترسی به فروشگاه به تأیید فروشنده بستگی دارد. پرداخت و اجاره هنوز فعال نیست.',missing:'ایمیل خود را وارد کنید.',short:'رمز عبور باید حداقل ۸ کاراکتر باشد.',success:'ورود موفق بود.',sent:'برای مرحله بعد ایمیل خود را بررسی کنید.',resetSent:'اگر ایمیل ثبت شده باشد، راهنمای بازیابی ارسال می‌شود.',connection:'خدمات ورود در دسترس نیست. دوباره تلاش کنید.',error:'خطای ارتباط: '},
+es:{back:'← Volver',titleLogin:'Iniciar sesión',titleAccount:'Mi cuenta',intro:'Accede a tu cuenta del mercado PESIVIA.',email:'Correo electrónico',password:'Contraseña',login:'Entrar',signup:'Crear cuenta',reset:'¿Olvidaste tu contraseña?',dashboard:'Abrir mi tienda',logout:'Cerrar sesión',signed:'Sesión iniciada como:',note:'El acceso a la tienda requiere aprobación. Los pagos y alquileres aún no están activos.',missing:'Introduce tu correo.',short:'La contraseña debe tener al menos 8 caracteres.',success:'Sesión iniciada.',sent:'Revisa tu correo electrónico.',resetSent:'Si existe esta cuenta, recibirás instrucciones.',connection:'El inicio de sesión no está disponible.',error:'Error de conexión: '}};
+let lang='en',currentUser=null,client=null;
+try{const stored=localStorage.getItem('pesivia-market-language')||localStorage.getItem('wvm-language');if(translations[stored])lang=stored}catch(e){}
+const t=k=>translations[lang][k]||translations.en[k];
+function render(){
+ document.documentElement.lang=lang;document.documentElement.dir=lang==='fa'?'rtl':'ltr';
+ $('language').value=lang;$('back').textContent=t('back');
+ $('title').textContent=t(currentUser?'titleAccount':'titleLogin');
+ $('intro').hidden=!!currentUser;$('intro').textContent=t('intro');
+ $('email-label').textContent=t('email');$('password-label').textContent=t('password');
+ for(const id of ['login','signup','reset','logout'])$(id).textContent=t(id);
+ $('seller-dashboard-link').textContent=t('dashboard');$('note').textContent=t('note');
+ $('forms').style.display=currentUser?'none':'block';$('account').style.display=currentUser?'block':'none';
+ $('who').textContent=currentUser?t('signed')+' '+(currentUser.email||''):'';
 }
-html body :is(button,.btn,a.btn,a.button,.actions a,.card a,.link,header a){
-background:rgba(8,23,45,.28)!important;
--webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+function message(key,raw){$('message').textContent=raw||t(key)}
+$('language').addEventListener('change',()=>{lang=$('language').value;try{localStorage.setItem('pesivia-market-language',lang);localStorage.setItem('wvm-language',lang)}catch(e){}render()});
+$('back').onclick=()=>{let ref;try{ref=new URL(document.referrer)}catch(e){}if(ref&&ref.origin===location.origin&&ref.pathname!==location.pathname)location.href=ref.href;else location.href='pesivia-services-hub.html'};
+render();
+const key=window.MALL_SUPABASE_PUBLISHABLE_KEY,url=window.MALL_SUPABASE_URL;
+if(!(window.supabase&&url&&key&&!key.startsWith('REPLACE_'))){message('connection');['login','signup','reset'].forEach(id=>$(id).disabled=true);return}
+client=window.supabase.createClient(url,key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+client.auth.onAuthStateChange((_event,session)=>{currentUser=session?.user||null;render()});
+client.auth.getUser().then(({data,error})=>{currentUser=data?.user||null;render();if(error&&error.name!=='AuthSessionMissingError')message('connection')}).catch(()=>message('connection'));
+async function act(type){
+ const email=$('email').value.trim(),password=$('password').value;
+ if(!email){message('missing');return}if(type!=='reset'&&password.length<8){message('short');return}
+ ['login','signup','reset'].forEach(id=>$(id).disabled=true);
+ try{let r;if(type==='login')r=await client.auth.signInWithPassword({email,password});else if(type==='signup')r=await client.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}});else r=await client.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});if(r.error)message('',r.error.message);else message(type==='login'?'success':type==='signup'?'sent':'resetSent')}
+ catch(e){message('',t('error')+e.message)}finally{['login','signup','reset'].forEach(id=>$(id).disabled=false)}
 }
-html body main :is(h1,h2,h3,p,.sub,.muted,.price,.status,.num){text-shadow:0 2px 4px #000,0 0 7px #000!important}
-@media(max-width:700px){
-html body main{padding:12px!important}
-html body main .grid{gap:9px!important;grid-template-columns:1fr!important}
-html body main .grid>.card{padding:11px 13px!important;margin:0!important;min-height:0!important}
-html body main .grid>.card h2,html body main .grid>.card h3{font-size:19px!important;margin:2px 0 7px!important}
-html body main .grid>.card p{margin:5px 0!important}
-html body main .grid>.card :is(button,.btn,a){padding:8px 12px!important}
-}
-</style><style id="pesivia-navigation-back-style">
-#pesivia-page-back{position:relative;z-index:10;display:inline-flex;align-items:center;justify-content:center;gap:5px;min-height:42px;padding:9px 15px;margin:6px 8px 6px 0;border:1px solid rgba(255,255,255,.8)!important;border-radius:14px!important;background:rgba(7,20,42,.38)!important;color:#fff!important;font:700 15px system-ui,sans-serif!important;text-shadow:0 1px 3px #000!important;cursor:pointer;white-space:nowrap;backdrop-filter:blur(2px)}
-</style><style id="pesivia-mobile-header-final">
-html body>header{position:relative!important;display:flex!important;align-items:center!important;gap:8px!important;flex-wrap:wrap!important;padding:10px 12px!important;min-height:64px!important}
-html body>header #pesivia-page-back{order:0!important;flex:0 0 auto!important;margin:0!important}
-html body>header #wvm-language-switch{position:static!important;top:auto!important;left:auto!important;right:auto!important;display:inline-flex!important;align-items:center!important;gap:4px!important;order:1!important;margin:0 0 0 auto!important;padding:5px 8px!important;border:1px solid #ffffffbd!important;border-radius:13px!important;background:rgba(7,22,43,.42)!important;color:white!important;box-shadow:none!important;font-size:0!important;z-index:3!important}
-html body>header #wvm-language-switch select{display:inline-block!important;width:auto!important;min-width:0!important;max-width:112px!important;margin:0!important;padding:6px 4px!important;border:0!important;background:transparent!important;color:#fff!important;font:700 14px system-ui!important}
-html body>header #wvm-language-switch option{color:#fff!important;background:#13253e!important}
-html body>header strong{order:2!important;flex:1 1 100%!important;min-width:0!important;font-size:15px!important}
-html body>header>a{order:3!important}
-html body>header .headerLeft{order:2!important;min-width:0!important}
-html body>header .topActions,html body>header .control{order:1!important;margin-left:auto!important}
-html body>header :is(#language,select){max-width:140px!important}
-@media(max-width:600px){html body>header{justify-content:space-between!important}html body>header .headerLeft{flex-basis:100%!important}html body>header .topActions{max-width:48%!important}}
-</style><style id="pesivia-auth-viewport-overflow-fix">
-html{width:100%;max-width:100%;overflow-x:hidden!important}
-html body{width:100%!important;max-width:100vw!important;overflow-x:hidden!important;box-sizing:border-box!important}
-html body *,html body *:before,html body *:after{box-sizing:border-box}
-html body main{width:100%!important;max-width:100%!important;margin:0 auto!important;padding:14px 12px 90px!important}
-html body main section{width:100%!important;max-width:100%!important;min-width:0!important;margin:10px 0!important;padding:20px 16px!important;overflow-wrap:anywhere!important}
-html body main :is(p,h1,h2,h3,a,label,#who,#message){max-width:100%!important;white-space:normal!important;overflow-wrap:anywhere!important;word-break:normal!important}
-html body>header{width:100%!important;max-width:100%!important;overflow:visible!important}
-html body>header #pesivia-page-back{flex:0 0 auto!important;order:0!important}
-html body>header #wvm-language-switch{flex:0 0 auto!important;order:1!important;margin-left:auto!important;position:static!important;inset:auto!important;background:rgba(9,25,48,.5)!important;border:1px solid #fff9!important;box-shadow:none!important;font-size:0!important;padding:4px 7px!important}
-html body>header #wvm-language-switch select{max-width:100px!important;width:auto!important;min-width:0!important;background:transparent!important;color:white!important;border:0!important;font:700 14px system-ui!important;padding:6px 2px!important}
-html body>header strong{order:2!important;flex-basis:100%!important}
-html body>header a{order:3!important}
-</style><style id="pesivia-account-login-polish">
-html body main{max-width:620px!important;margin:0 auto!important}
-html body main section{padding:22px 18px!important;background:rgba(6,19,37,.25)!important}
-html body #account{padding:8px 0!important}
-html body #account #who{font-size:16px!important;font-weight:700!important;line-height:1.5!important}
-html body #seller-dashboard-link{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:48px!important;padding:12px 18px!important;margin:12px 0!important;background:rgba(9,33,61,.52)!important;border:1px solid #ffffffb8!important;border-radius:14px!important;color:white!important;font-weight:750!important;text-decoration:none!important;text-shadow:0 1px 3px #000!important}
-html body #logout{min-height:44px!important;padding:10px 18px!important}
-html body #forms input{width:100%!important;max-width:100%!important}
-html body #forms button{min-height:44px!important}
-</style></head><body><header><strong id="seller-auth-heading">🏬 Seller Login</strong><a id="seller-auth-markets" href="pesivia-services-hub.html">PESIVIA Home ↩</a></header><main><section><h2>حساب فروشنده</h2><p class="muted">ثبت‌نام با ایمیل و رمز عبور. برای دریافت مغازه، تأیید مدیریت جداگانه لازم است.</p><div id="forms"><label for="email">ایمیل</label><input id="email" type="email" autocomplete="email"><label for="password">رمز عبور</label><input id="password" type="password" autocomplete="current-password" minlength="8"><button id="signup">ایجاد حساب</button><button id="login">ورود</button><button id="reset">بازیابی رمز</button></div><div id="account"><p id="who"></p><a id="seller-dashboard-link" href="my-store.html">Open My Store</a><p><button id="logout">خروج از حساب</button></p></div><div id="message" role="status" aria-live="polite"></div><p class="muted">هر حساب فقط به داده‌های مجاز خودش دسترسی خواهد داشت. پرداخت و اجاره واقعی هنوز فعال نیست.</p></section></main><script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.10/dist/umd/supabase.min.js"></script><script>
-const $=id=>document.getElementById(id);const key=window.MALL_SUPABASE_PUBLISHABLE_KEY,url=window.MALL_SUPABASE_URL;const ready=!!(window.supabase&&url&&key&&!key.startsWith('REPLACE_'));let client=null;
-function msg(text,ok=false){$('message').className=ok?'ok':'warning';$('message').textContent=text}
-function show(user){$('forms').style.display=user?'none':'block';$('account').style.display=user?'block':'none';$('who').textContent=user?(localStorage.getItem('wvm-language')==='fa'?'وارد شده با: ':'Signed in as: ')+user.email:'';const h=document.querySelector('main h2');if(h)h.textContent=user?'My Account':'Seller Login';const intro=document.querySelector('main p.muted');if(intro)intro.style.display=user?'none':''}
-if(!ready){msg('اتصال ورود هنوز فعال نشده است. برای راه‌اندازی، کلید Publishable پروژه World Virtual Mall باید در تنظیمات سایت قرار گیرد. رمز پایگاه داده یا کلید Secret لازم نیست.');document.querySelectorAll('button').forEach(b=>b.disabled=true)}
-else{client=window.supabase.createClient(url,key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});client.auth.getUser().then(({data,error})=>{if(error)msg(error.message);show(data?.user)});client.auth.onAuthStateChange((event,session)=>show(session?.user))}
-async function act(type){if(!client)return;const email=$('email').value.trim(),password=$('password').value;if(!email){msg('ایمیل را وارد کنید');return}if(type!=='reset'&&password.length<8){msg('رمز عبور باید حداقل ۸ کاراکتر باشد');return}document.querySelectorAll('button').forEach(b=>b.disabled=true);try{let result;if(type==='signup')result=await client.auth.signUp({email,password,emailRedirectTo:location.origin+location.pathname});else if(type==='login')result=await client.auth.signInWithPassword({email,password});else result=await client.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});if(result.error)msg(result.error.message);else if(type==='signup')msg('درخواست ثبت‌نام ارسال شد. اگر تأیید ایمیل فعال باشد، ایمیل خود را بررسی کنید.',true);else if(type==='reset')msg('اگر این ایمیل ثبت شده باشد، راهنمای بازیابی ارسال می‌شود.',true);else msg('ورود موفق بود.',true)}catch(e){msg('خطای ارتباط: '+e.message)}finally{document.querySelectorAll('button').forEach(b=>b.disabled=false)}}
-$('signup').onclick=()=>act('signup');$('login').onclick=()=>act('login');$('reset').onclick=()=>act('reset');$('logout').onclick=async()=>{if(!client)return;const {error}=await client.auth.signOut();if(error)msg(error.message);else msg('از حساب خارج شدید.',true)};
-</script><script src="language.js?v=fc5c1a6e"></script><script id="pesivia-navigation-back">
-(function(){if(document.getElementById('pesivia-page-back'))return;const b=document.createElement('button');b.type='button';b.id='pesivia-page-back';b.textContent='← Back';b.setAttribute('aria-label','Back to previous PESIVIA page');b.addEventListener('click',function(){let ref=null;try{ref=new URL(document.referrer);if(ref.origin!==location.origin||ref.pathname===location.pathname)ref=null}catch(e){}if(ref){location.href=ref.href}else{location.href='pesivia-services-hub.html'}});const header=document.querySelector('header');if(header)header.prepend(b);else document.body.prepend(b)})();
-</script><script id="pesivia-header-language-fix">(function(){function move(){const e=document.getElementById('wvm-language-switch'),h=document.querySelector('body>header');if(e&&h)h.appendChild(e)}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',move);else move()})();</script><script id="pesivia-auth-mobile-lang-final">
-(function(){
-function fix(){
- const h=document.querySelector('body>header'),l=document.getElementById('wvm-language-switch');
- if(!h||!l)return;
- h.appendChild(l);
- if(!document.getElementById('pesivia-auth-lang-overrides')){
- const st=document.createElement('style');st.id='pesivia-auth-lang-overrides';
- st.textContent='html body #wvm-language-switch{position:static!important;inset:auto!important;display:inline-flex!important;align-items:center!important;order:1!important;margin-left:auto!important;padding:5px 9px!important;border:1px solid #ffffffbb!important;border-radius:13px!important;background:rgba(8,22,43,.35)!important;box-shadow:none!important;font-size:0!important;z-index:3!important}html body #wvm-language-switch select{display:inline-block!important;max-width:112px!important;min-width:0!important;width:auto!important;padding:6px 4px!important;background:transparent!important;color:white!important;border:0!important;font:700 14px system-ui!important}html body>header{display:flex!important;flex-wrap:wrap!important;align-items:center!important;gap:8px!important}html body>header #pesivia-page-back{order:0!important}html body>header strong{order:2!important;flex:1 1 100%!important}html body>header>a{order:3!important}';
- document.head.appendChild(st);
- }
-}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fix);else fix();
-})();
-</script><script id="pesivia-auth-live-lang">
-(function(){function apply(){const l=document.getElementById('wvm-lang'),who=document.getElementById('who');if(!l||!who)return;const update=()=>{const email=who.textContent.match(/[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}/)?.[0];if(email)who.textContent=(l.value==='fa'?'وارد شده با: ':'Signed in as: ')+email};l.addEventListener('change',update);update()}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply);else apply()})();
-</script><script id="pesivia-auth-translation-sync-v2">
-(function(){
-let busy=false;
-function sync(){
-if(busy)return;busy=true;
-const fa=document.getElementById('wvm-lang')?.value==='fa';
-const heading=document.getElementById('seller-auth-heading'),markets=document.getElementById('seller-auth-markets'),who=document.getElementById('who');
-if(heading)heading.textContent=fa?'🏬 ورود فروشندگان':'🏬 Seller Login';
-if(markets)markets.textContent=fa?'خانه PESIVIA ↩':'PESIVIA Home ↩';
-if(who){const match=who.textContent.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);if(match)who.textContent=(fa?'وارد شده با: ':'Signed in as: ')+match[0]}
-busy=false;
-}
-function init(){sync();document.getElementById('wvm-lang')?.addEventListener('change',sync);const who=document.getElementById('who');if(who)new MutationObserver(sync).observe(who,{childList:true,characterData:true,subtree:true});}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
-})();
-</script><script id="pesivia-account-localize">
-(function(){
-function update(){
-const fa=document.getElementById('wvm-lang')?.value==='fa';
-const dashboard=document.getElementById('seller-dashboard-link'),who=document.getElementById('who'),h=document.querySelector('main h2'),intro=document.querySelector('main p.muted');
-if(dashboard)dashboard.textContent=fa?'ورود به فروشگاه من':'Open My Store';
-if(who){const email=who.textContent.match(/[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}/)?.[0];if(email)who.textContent=(fa?'وارد شده با: ':'Signed in as: ')+email}
-if(h)h.textContent=fa?(document.getElementById('account').style.display==='block'?'حساب من':'ورود فروشنده'):(document.getElementById('account').style.display==='block'?'My Account':'Seller Login');
-if(intro&&document.getElementById('account').style.display==='block')intro.style.display='none';
-}
-function init(){update();document.getElementById('wvm-lang')?.addEventListener('change',update);const target=document.getElementById('account');if(target)new MutationObserver(update).observe(target,{attributes:true,attributeFilter:['style']});}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+$('login').onclick=()=>act('login');$('signup').onclick=()=>act('signup');$('reset').onclick=()=>act('reset');
+$('logout').onclick=async()=>{const r=await client.auth.signOut();if(r.error)message('',r.error.message);else $('message').textContent=''};
 })();
 </script></body></html>
