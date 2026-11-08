@@ -70,7 +70,7 @@ function render(){
  $('title').textContent=t(currentUser?'titleAccount':'titleLogin');
  $('intro').hidden=!!currentUser;$('intro').textContent=t('intro');
  $('email-label').textContent=t('email');$('password-label').textContent=t('password');
- for(const id of ['login','signup','reset','logout'])$(id).textContent=t(id);
+ for(const id of ['login','signup','reset'])$(id).textContent=t(id);
  $('note').textContent=t('note');
  $('forms').style.display=currentUser?'none':'block';
 }
