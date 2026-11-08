@@ -86,12 +86,12 @@ client.auth.onAuthStateChange((_event,session)=>{currentUser=session?.user||null
 client.auth.getUser().then(({data,error})=>{currentUser=data?.user||null;if(currentUser)goToStore();else render();if(error&&error.name!=='AuthSessionMissingError')message('connection')}).catch(()=>message('connection'));
 async function act(type){
  const email=$('email').value.trim(),password=$('password').value;
- if(!email){message('missing');$('email').focus();return}if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)){message('',lang==='fa'?'ایمیل معتبر وارد کنید.':'Enter a valid email address.');$('email').focus();return}if(type!=='reset'&&password.length<8){message('short');$('password').focus();return}if(type==='signup'&&password!==$('confirm-password').value){message('',lang==='fa'?'رمزهای عبور یکسان نیستند.':'Passwords do not match.');$('confirm-password').focus();return}
+ if(!email){message('missing');$('email').focus();return}if(!$('email').checkValidity()){message('',lang==='fa'?'ایمیل معتبر وارد کنید.':'Enter a valid email address.');$('email').focus();return}if(type!=='reset'&&password.length<8){message('short');$('password').focus();return}
  ['login','signup','reset'].forEach(id=>$(id).disabled=true);
- try{let r;if(type==='login')r=await client.auth.signInWithPassword({email,password});else if(type==='signup')r=await client.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}});else r=await client.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});if(r.error)message('',r.error.message);else if(type==='login'){currentUser=r.data?.user||null;if(currentUser)goToStore();else message('connection');}else if(type==='signup'){if(r.data?.session&&r.data?.user){currentUser=r.data.user;goToStore()}else{message('',lang==='fa'?'حساب ایجاد شد. برای تأیید ایمیل، صندوق ورودی خود را بررسی کنید.':'Account request submitted. Check your email to confirm your account.');signupMode=false;render()}}else message('resetSent')}
+ try{let r;if(type==='login')r=await client.auth.signInWithPassword({email,password});else r=await client.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});if(r.error)message('',r.error.message);else if(type==='login'){currentUser=r.data?.user||null;if(currentUser)goToStore();else message('connection');}else message('resetSent')}
  catch(e){message('',t('error')+e.message)}finally{['login','signup','reset'].forEach(id=>$(id).disabled=false)}
 }
-$('login').onclick=()=>act('login');$('cancel-signup').onclick=()=>{signupMode=false;$('password').setAttribute('autocomplete','current-password');$('message').textContent='';render()};$('reset').onclick=()=>act('reset');
+$('login').onclick=()=>act('login');$('reset').onclick=()=>act('reset');
 
 })();
 </script></body></html>
