@@ -24,6 +24,29 @@ html body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:no
 html body>header,html body>main,html body>footer{position:relative;z-index:1}
 html body :is(.card,.panel,.product,.item,.notice,section){background-color:rgba(8,24,46,.22)!important}
 @media(max-width:700px){html body{background-attachment:scroll!important}html body::before{background-position:center top}}
+</style><style id="pesivia-mobile-background-fix">
+/* Preserve full sharp mall photo on iOS: no blurred full-page layers */
+html{background:#091224!important}
+html body{background-attachment:scroll!important;background-position:center top!important;background-size:cover!important;min-height:100svh!important}
+html body main :is(.card,.panel,.product,.item,.notice,.status,section,.message,.warning,.ok){
+background:rgba(8,22,42,.10)!important;
+-webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+border:1px solid rgba(255,255,255,.7)!important;
+box-shadow:0 2px 7px rgba(0,0,0,.15)!important;
+}
+html body :is(button,.btn,a.btn,a.button,.actions a,.card a,.link,header a){
+background:rgba(8,23,45,.28)!important;
+-webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+}
+html body main :is(h1,h2,h3,p,.sub,.muted,.price,.status,.num){text-shadow:0 2px 4px #000,0 0 7px #000!important}
+@media(max-width:700px){
+html body main{padding:12px!important}
+html body main .grid{gap:9px!important;grid-template-columns:1fr!important}
+html body main .grid>.card{padding:11px 13px!important;margin:0!important;min-height:0!important}
+html body main .grid>.card h2,html body main .grid>.card h3{font-size:19px!important;margin:2px 0 7px!important}
+html body main .grid>.card p{margin:5px 0!important}
+html body main .grid>.card :is(button,.btn,a){padding:8px 12px!important}
+}
 </style></head><body><header><button id="back" type="button">← Back</button><select id="language" aria-label="Language"><option value="en">English</option><option value="fa">فارسی</option><option value="es">Español</option></select></header><main><h1 id="title">🔎 Find Products</h1><p id="intro">Search published products from PESIVIA sellers. Only actual listed products are shown.</p><form id="form" class="search"><input id="q" type="search" maxlength="100" placeholder="Product name, e.g. ring" required><button id="go" type="submit">Search Products</button></form><div id="status" class="status" role="status">Enter a product name to search.</div><div id="grid" class="grid"></div></main><footer id="footer">Product listings are informational. Checkout is not enabled on this page.</footer><script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.10/dist/umd/supabase.min.js"></script><script>
 const labels={en:{back:'← Back',title:'🔎 Find Products',intro:'Search published products from PESIVIA sellers. Only actual listed products are shown.',placeholder:'Product name, e.g. ring',go:'Search Products',initial:'Enter a product name to search.',loading:'Searching published products…',empty:'No matching published products found.',error:'Unable to search products. Please try again.',connection:'Product search connection is unavailable.',view:'View Product Store',footer:'Product listings are informational. Checkout is not enabled on this page.',results:' matching products'},fa:{back:'← بازگشت',title:'🔎 پیدا کردن محصول',intro:'در محصولات منتشرشده فروشندگان PESIVIA جستجو کنید. فقط محصولات واقعی نمایش داده می‌شوند.',placeholder:'نام محصول، مانند انگشتر',go:'جستجوی محصول',initial:'برای جستجو نام محصول را وارد کنید.',loading:'در حال جستجوی محصولات…',empty:'محصول منتشرشده‌ای پیدا نشد.',error:'جستجوی محصولات انجام نشد. دوباره تلاش کنید.',connection:'اتصال جستجوی محصول در دسترس نیست.',view:'مشاهده فروشگاه محصول',footer:'پرداخت در این صفحه فعال نیست.',results:' محصول پیدا شد'},es:{back:'← Volver',title:'🔎 Buscar productos',intro:'Busca productos publicados por vendedores de PESIVIA. Solo se muestran anuncios reales.',placeholder:'Nombre del producto, p. ej. anillo',go:'Buscar productos',initial:'Introduce el nombre de un producto.',loading:'Buscando productos…',empty:'No se encontraron productos publicados.',error:'No se pudo buscar. Inténtalo de nuevo.',connection:'La búsqueda no está disponible.',view:'Ver tienda del producto',footer:'Los pagos no están disponibles aquí.',results:' productos encontrados'}};
 const params=new URLSearchParams(location.search),language=document.getElementById('language'),query=document.getElementById('q'),grid=document.getElementById('grid'),status=document.getElementById('status');let lang='en';try{lang=labels[params.get('lang')]?params.get('lang'):(labels[localStorage.getItem('pesivia-market-language')]?localStorage.getItem('pesivia-market-language'):'en')}catch(e){}const t=k=>labels[lang][k]||labels.en[k];
