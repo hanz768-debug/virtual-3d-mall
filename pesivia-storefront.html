@@ -16,6 +16,29 @@ html body :is(input,select,textarea){background:rgba(10,23,45,.7)!important;colo
 html body input::placeholder,html body textarea::placeholder{color:#e0e5ed!important}
 html body :is(.sub,.muted,.price,.status,.num,.total,footer){color:#fff!important;text-shadow:0 1px 4px #000!important}
 html body main{position:relative}
+</style><style id="pesivia-mobile-background-fix">
+/* Preserve full sharp mall photo on iOS: no blurred full-page layers */
+html{background:#091224!important}
+html body{background-attachment:scroll!important;background-position:center top!important;background-size:cover!important;min-height:100svh!important}
+html body main :is(.card,.panel,.product,.item,.notice,.status,section,.message,.warning,.ok){
+background:rgba(8,22,42,.10)!important;
+-webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+border:1px solid rgba(255,255,255,.7)!important;
+box-shadow:0 2px 7px rgba(0,0,0,.15)!important;
+}
+html body :is(button,.btn,a.btn,a.button,.actions a,.card a,.link,header a){
+background:rgba(8,23,45,.28)!important;
+-webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+}
+html body main :is(h1,h2,h3,p,.sub,.muted,.price,.status,.num){text-shadow:0 2px 4px #000,0 0 7px #000!important}
+@media(max-width:700px){
+html body main{padding:12px!important}
+html body main .grid{gap:9px!important;grid-template-columns:1fr!important}
+html body main .grid>.card{padding:11px 13px!important;margin:0!important;min-height:0!important}
+html body main .grid>.card h2,html body main .grid>.card h3{font-size:19px!important;margin:2px 0 7px!important}
+html body main .grid>.card p{margin:5px 0!important}
+html body main .grid>.card :is(button,.btn,a){padding:8px 12px!important}
+}
 </style></head><body><header><a href="pesivia-market-multilingual.html"><strong>🌐 PESIVIA MARKET</strong></a><div class="control"><label for="language" data-i="language">Language</label><select id="language"><option value="en">English</option><option value="fa">فارسی</option><option value="es">Español</option></select></div></header><main><a id="back" class="back" href="pesivia-store-directory.html" data-i="back">← Store Directory</a><div class="panel"><h1 id="title">Store</h1><p id="status" role="status" class="sub"></p><p class="sub" data-i="intro">Only published products from the real marketplace database are displayed. Payments and order placement are not enabled in this preview.</p></div><h2 data-i="products">Published Products</h2><a href="pesivia-cart.html" id="cartLink" class="back">🛒 My Cart</a><div id="grid" class="grid"></div></main><footer data-i="footer">PESIVIA · Marketplace preview · No live checkout</footer><script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.10/dist/umd/supabase.min.js"></script><script>
 const words={en:{language:'Language',back:'← Store Directory',intro:'Only published products from the real marketplace database are displayed. Payments and order placement are not enabled in this preview.',products:'Published Products',footer:'PESIVIA · Marketplace preview · No live checkout',store:'Store ',loading:'Loading store…',invalid:'Invalid store address.',missing:'Store not found.',offline:'Marketplace connection is unavailable.',occupied:'Store assigned',reserved:'Store reserved',available:'Store available for lease',error:'Unable to load published products.',empty:'No published products in this store yet.',favorite:'♡ Save',saved:'♥ Saved',copy:'Copy Product Info',copied:'Copied',add:'Add to Cart',added:'✓ Added',copyFail:'Copy failed',currency:'',unit:'Store'},fa:{language:'زبان',back:'← فهرست فروشگاه‌ها',intro:'فقط محصولات منتشرشده از پایگاه داده واقعی نمایش داده می‌شوند. پرداخت و ثبت سفارش هنوز فعال نیست.',products:'محصولات منتشرشده',footer:'PESIVIA · پیش‌نمایش بازار · بدون پرداخت',store:'مغازه ',loading:'در حال دریافت مغازه…',invalid:'آدرس مغازه نامعتبر است.',missing:'مغازه یافت نشد.',offline:'اتصال بازار در دسترس نیست.',occupied:'مغازه واگذارشده',reserved:'مغازه رزرو شده',available:'مغازه آماده واگذاری',error:'دریافت محصولات ممکن نشد.',empty:'هنوز محصول منتشرشده‌ای وجود ندارد.',favorite:'♡ ذخیره',saved:'♥ ذخیره‌شده',copy:'کپی اطلاعات محصول',copied:'کپی شد',add:'افزودن به سبد',added:'✓ افزوده شد',copyFail:'کپی انجام نشد',currency:'',unit:'مغازه'},es:{language:'Idioma',back:'← Directorio',intro:'Solo se muestran productos publicados en la base de datos real. Los pagos y pedidos no están disponibles.',products:'Productos publicados',footer:'PESIVIA · Vista previa · Sin pagos',store:'Tienda ',loading:'Cargando tienda…',invalid:'Dirección de tienda inválida.',missing:'Tienda no encontrada.',offline:'Conexión no disponible.',occupied:'Tienda asignada',reserved:'Tienda reservada',available:'Tienda disponible',error:'No se pueden cargar los productos.',empty:'Todavía no hay productos publicados.',favorite:'♡ Guardar',saved:'♥ Guardado',copy:'Copiar información',copied:'Copiado',add:'Añadir al carrito',added:'✓ Añadido',copyFail:'No se pudo copiar',currency:'',unit:'Tienda'}};
 const params=new URLSearchParams(location.search),market=params.get('market'),num=Number(params.get('unit')),langControl=document.getElementById('language'),grid=document.getElementById('grid'),status=document.getElementById('status');let lang='en',unitState=null,products=null,problem=null;try{lang=words[params.get('lang')]?params.get('lang'):(words[localStorage.getItem('pesivia-market-language')]?localStorage.getItem('pesivia-market-language'):'en')}catch(e){}const t=k=>words[lang][k]||words.en[k];function favorites(){try{return JSON.parse(localStorage.getItem('pesivia-market-favorites')||'[]')}catch(e){return []}}function saveFavorites(a){try{localStorage.setItem('pesivia-market-favorites',JSON.stringify(a))}catch(e){}}
