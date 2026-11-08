@@ -1,57 +1,21 @@
-/* PESIVIA simple interior pages — first/home mall background is intentionally unchanged. */
-:root{color-scheme:light!important}
-html{background:#f4f6fa!important}
-html body{background:#f4f6fa!important;background-image:none!important;color:#17253b!important;text-shadow:none!important;min-height:100svh!important;font:15px/1.55 system-ui,-apple-system,sans-serif!important}
-html body::before,html body::after{background-image:none!important;content:none!important;display:none!important}
-html body>header{background:#fff!important;background-image:none!important;border-bottom:1px solid #dce3eb!important;box-shadow:0 2px 8px #14223b0b!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;color:#17253b!important;padding:12px 18px!important}
-html body>main{max-width:980px!important;margin:20px auto!important;padding:16px!important;min-width:0!important}
-html body main :is(h1,h2,h3,p,label,strong,small,span),html body footer,html body header :is(strong,b,span){color:#17253b!important;-webkit-text-fill-color:#17253b!important;text-shadow:none!important;background:transparent!important;background-image:none!important;box-shadow:none!important;max-width:100%!important;overflow-wrap:break-word!important}
-html body main h1{font-size:clamp(24px,4vw,31px)!important;font-weight:750!important;line-height:1.25!important;margin:0 0 16px!important;padding:0!important}
-html body main h2{font-size:clamp(19px,3vw,23px)!important;font-weight:700!important;line-height:1.3!important;padding:0!important;margin:0 0 12px!important}
-html body main p{line-height:1.65!important;padding:0!important;margin:9px 0 13px!important}
-html body main :is(section,.panel,.card,.item,.notice,.product,.status,.message,.warning,.ok,article,.entry,.metric){background:#fff!important;background-image:none!important;color:#17253b!important;border:1px solid #e0e6ed!important;border-radius:14px!important;box-shadow:0 2px 12px #1c2c4510!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
-html body main :is(section,.panel,.card,.item,.notice,.product,article,.entry){padding:18px!important;margin-bottom:15px!important}
-html body main :is(input,select,textarea){background:#fff!important;color:#17253b!important;-webkit-text-fill-color:#17253b!important;border:1px solid #aab9ca!important;border-radius:9px!important;text-shadow:none!important;box-shadow:none!important;max-width:100%!important}
-html body main :is(input,textarea)::placeholder{color:#64748b!important;-webkit-text-fill-color:#64748b!important}
-html body :is(button,.btn,a.btn,a.button,.action,header a,header button,header select,main a.action,main .link){background:#fff!important;color:#173454!important;-webkit-text-fill-color:#173454!important;border:1px solid #b5c4d4!important;border-radius:10px!important;text-shadow:none!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;min-height:40px!important}
-html body main button,html body main :is(a.action,.action){padding:10px 14px!important}
-html body main button:hover,html body main :is(a.action,.action):hover{background:#e9f1f9!important}
-html body main :is(.primary,button[type=submit],#submit,#login,#save-style,#save-product){background:#234f80!important;color:#fff!important;-webkit-text-fill-color:#fff!important;border-color:#234f80!important}
-html body main :is(.primary,button[type=submit],#submit,#login,#save-style,#save-product):hover{background:#183d65!important}
-html body main a:not(.action):not(.btn):not(.button){color:#1e548a!important;-webkit-text-fill-color:#1e548a!important}
-html body footer{color:#64748b!important}
-html body main :is(.total,.price,.num,.muted,.sub){color:#334155!important;-webkit-text-fill-color:#334155!important;text-shadow:none!important}
-@media(max-width:650px){html body>main{padding:12px!important;margin:10px auto!important}html body main :is(section,.panel,.card,.item,.notice,article,.entry){padding:14px!important}html body>header{padding:10px!important;gap:8px!important}html body>header :is(a,button,select){font-size:13px!important;padding:8px 10px!important}}
-
-/* High-contrast black labels and controls on clean light interiors */
-html body>header :is(a,button,select),html body>header .pesivia-home-link,html body>header #backButton{background:#17191f!important;color:#fff!important;-webkit-text-fill-color:#fff!important;border-color:#454b56!important}
-html body>header :is(a,button,select) :is(span,strong,b){color:#fff!important;-webkit-text-fill-color:#fff!important}
-html body main :is(h1,h2,h3){color:#fff!important;-webkit-text-fill-color:#fff!important;background:#17191f!important;display:table!important;width:auto!important;max-width:100%!important;padding:6px 11px!important;border-radius:9px!important}
-html body main :is(.sub,.status,.num,.total,.price){color:#fff!important;-webkit-text-fill-color:#fff!important;background:#202126!important;border-radius:9px!important;padding:7px 11px!important;width:fit-content!important;max-width:100%!important}
-html body main :is(.sub,.status,.num,.total,.price) :is(span,strong){color:#fff!important;-webkit-text-fill-color:#fff!important}
-html body main :is(input,textarea,select){background:#202126!important;color:#fff!important;-webkit-text-fill-color:#fff!important;border-color:#5e626c!important}
-html body main :is(input,textarea)::placeholder{color:#eee!important;-webkit-text-fill-color:#eee!important;opacity:1!important}
-html body main :is(button,.btn,a.btn,a.button,.action,main a.action){background:#202126!important;color:#fff!important;-webkit-text-fill-color:#fff!important;border-color:#555b65!important}
-html body main :is(button,.btn,a.btn,a.button,.action):hover{background:#353944!important}
-html body main :is(.primary,button[type=submit],#submit,#login,#save-style,#save-product){background:#234f80!important;color:#fff!important;-webkit-text-fill-color:#fff!important}
-html body main :is(.card,.panel,section,article,.item,.entry){background:#fff!important}
-
-/* PESIVIA final interior theme: no black text backing; dark readable text on light pages.
-   Does not apply to the services hub or 3D home, which do not load this file. */
-html body,html body>main,html body footer{background-color:#f4f6fa!important;color:#18212d!important;text-shadow:none!important}
-html body main :is(h1,h2,h3,h4,p,span,strong,small,label,.sub,.status,.num,.total,.price,.muted),html body footer{
+/* Unified final PESIVIA inner-page design. No black text blocks. */
+html body{background:#f4f6fa!important;background-image:none!important;color:#18212d!important;text-shadow:none!important}
+html body::before,html body::after{display:none!important;content:none!important}
+html body>header{background:#fff!important;background-image:none!important;border-bottom:1px solid #dce3eb!important;color:#18212d!important}
+html body>main{background:transparent!important;color:#18212d!important}
+html body>main :is(h1,h2,h3,h4,p,span,strong,small,label,.sub,.status,.num,.total,.price,.muted),html body footer{
 background:transparent!important;background-color:transparent!important;background-image:none!important;
-color:#18212d!important;-webkit-text-fill-color:#18212d!important;text-shadow:none!important;box-shadow:none!important;
-}
-html body main :is(h1,h2,h3,h4,.sub,.status,.num,.total,.price){display:block!important;width:auto!important;padding:0!important;border-radius:0!important}
-html body main :is(section,.panel,.card,.item,.notice,.product,article,.entry,.metric,.warning,.ok,.message){background:#fff!important;background-image:none!important;color:#18212d!important;border:1px solid #e1e6ed!important;box-shadow:0 2px 10px #1c2c4510!important}
-html body main :is(section,.panel,.card,.item,.notice,.product,article,.entry,.metric,.warning,.ok,.message) :is(p,span,strong,small,label,h1,h2,h3){background:transparent!important;color:#18212d!important;-webkit-text-fill-color:#18212d!important;text-shadow:none!important}
-html body :is(a,button,.btn,a.btn,a.button,.action,header a,header button,header select,main .link){background:#fff!important;background-color:#fff!important;color:#18212d!important;-webkit-text-fill-color:#18212d!important;border:1px solid #b8c4d2!important;text-shadow:none!important;box-shadow:none!important}
-html body :is(a,button,.btn,a.btn,a.button,.action,header a,header button,header select,main .link) :is(span,strong,b){color:#18212d!important;-webkit-text-fill-color:#18212d!important;background:transparent!important}
-html body main a:not(.btn):not(.button){color:#18212d!important;-webkit-text-fill-color:#18212d!important}
-html body main :is(input,select,textarea){background:#fff!important;color:#18212d!important;-webkit-text-fill-color:#18212d!important;border:1px solid #aab9ca!important;box-shadow:none!important}
-html body main :is(input,textarea)::placeholder{color:#697586!important;-webkit-text-fill-color:#697586!important}
-html body>header{background:#fff!important;color:#18212d!important}
-html body>header :is(a,button,select,label,strong,span,b){background:#fff!important;color:#18212d!important;-webkit-text-fill-color:#18212d!important;text-shadow:none!important}
-html body main :is(.primary,button[type=submit],#submit,#login,#save-style,#save-product){background:#234f80!important;color:#fff!important;-webkit-text-fill-color:#fff!important;border-color:#234f80!important}
-html body main :is(.primary,button[type=submit],#submit,#login,#save-style,#save-product) :is(span,strong){color:#fff!important;-webkit-text-fill-color:#fff!important}
+color:#18212d!important;-webkit-text-fill-color:#18212d!important;text-shadow:none!important;box-shadow:none!important;border:0!important}
+html body>main :is(h1,h2,h3,h4,.sub,.status,.num,.total,.price){display:block!important;width:auto!important;max-width:100%!important;padding:0!important;border-radius:0!important}
+html body>main :is(section,.panel,.card,.item,.notice,.product,article,.entry,.metric,.warning,.ok,.message){
+background:#fff!important;background-image:none!important;border:1px solid #e1e6ed!important;color:#18212d!important;
+box-shadow:0 2px 10px #1c2c4510!important}
+html body>main :is(a,a:link,a:visited,button,.btn,a.btn,a.action,.action,.link),html body>header :is(a,a:link,a:visited,button,select){
+background:#fff!important;background-color:#fff!important;background-image:none!important;color:#18212d!important;
+-webkit-text-fill-color:#18212d!important;border:1px solid #b8c4d2!important;text-shadow:none!important;box-shadow:none!important}
+html body>main :is(a,button,.btn,.action) :is(span,strong,b),html body>header :is(a,button,select) :is(span,strong,b){
+background:transparent!important;color:#18212d!important;-webkit-text-fill-color:#18212d!important;text-shadow:none!important}
+html body>main :is(input,select,textarea){background:#fff!important;color:#18212d!important;-webkit-text-fill-color:#18212d!important;border:1px solid #b8c4d2!important}
+html body>main :is(input,textarea)::placeholder{color:#64748b!important;-webkit-text-fill-color:#64748b!important}
+html body>main :is(button[type=submit],.primary){background:#234f80!important;color:#fff!important;-webkit-text-fill-color:#fff!important}
+@media(max-width:650px){html body>main{padding:12px!important}html body>header{gap:8px!important;flex-wrap:wrap!important}}
