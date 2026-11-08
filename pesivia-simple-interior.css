@@ -35,3 +35,23 @@ html body main :is(button,.btn,a.btn,a.button,.action,main a.action){background:
 html body main :is(button,.btn,a.btn,a.button,.action):hover{background:#353944!important}
 html body main :is(.primary,button[type=submit],#submit,#login,#save-style,#save-product){background:#234f80!important;color:#fff!important;-webkit-text-fill-color:#fff!important}
 html body main :is(.card,.panel,section,article,.item,.entry){background:#fff!important}
+
+/* PESIVIA final interior theme: no black text backing; dark readable text on light pages.
+   Does not apply to the services hub or 3D home, which do not load this file. */
+html body,html body>main,html body footer{background-color:#f4f6fa!important;color:#18212d!important;text-shadow:none!important}
+html body main :is(h1,h2,h3,h4,p,span,strong,small,label,.sub,.status,.num,.total,.price,.muted),html body footer{
+background:transparent!important;background-color:transparent!important;background-image:none!important;
+color:#18212d!important;-webkit-text-fill-color:#18212d!important;text-shadow:none!important;box-shadow:none!important;
+}
+html body main :is(h1,h2,h3,h4,.sub,.status,.num,.total,.price){display:block!important;width:auto!important;padding:0!important;border-radius:0!important}
+html body main :is(section,.panel,.card,.item,.notice,.product,article,.entry,.metric,.warning,.ok,.message){background:#fff!important;background-image:none!important;color:#18212d!important;border:1px solid #e1e6ed!important;box-shadow:0 2px 10px #1c2c4510!important}
+html body main :is(section,.panel,.card,.item,.notice,.product,article,.entry,.metric,.warning,.ok,.message) :is(p,span,strong,small,label,h1,h2,h3){background:transparent!important;color:#18212d!important;-webkit-text-fill-color:#18212d!important;text-shadow:none!important}
+html body :is(a,button,.btn,a.btn,a.button,.action,header a,header button,header select,main .link){background:#fff!important;background-color:#fff!important;color:#18212d!important;-webkit-text-fill-color:#18212d!important;border:1px solid #b8c4d2!important;text-shadow:none!important;box-shadow:none!important}
+html body :is(a,button,.btn,a.btn,a.button,.action,header a,header button,header select,main .link) :is(span,strong,b){color:#18212d!important;-webkit-text-fill-color:#18212d!important;background:transparent!important}
+html body main a:not(.btn):not(.button){color:#18212d!important;-webkit-text-fill-color:#18212d!important}
+html body main :is(input,select,textarea){background:#fff!important;color:#18212d!important;-webkit-text-fill-color:#18212d!important;border:1px solid #aab9ca!important;box-shadow:none!important}
+html body main :is(input,textarea)::placeholder{color:#697586!important;-webkit-text-fill-color:#697586!important}
+html body>header{background:#fff!important;color:#18212d!important}
+html body>header :is(a,button,select,label,strong,span,b){background:#fff!important;color:#18212d!important;-webkit-text-fill-color:#18212d!important;text-shadow:none!important}
+html body main :is(.primary,button[type=submit],#submit,#login,#save-style,#save-product){background:#234f80!important;color:#fff!important;-webkit-text-fill-color:#fff!important;border-color:#234f80!important}
+html body main :is(.primary,button[type=submit],#submit,#login,#save-style,#save-product) :is(span,strong){color:#fff!important;-webkit-text-fill-color:#fff!important}
