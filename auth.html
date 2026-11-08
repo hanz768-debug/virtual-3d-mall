@@ -82,13 +82,13 @@ render();
 const key=window.MALL_SUPABASE_PUBLISHABLE_KEY,url=window.MALL_SUPABASE_URL;
 if(!(window.supabase&&url&&key&&!key.startsWith('REPLACE_'))){message('connection');['login','signup','reset'].forEach(id=>$(id).disabled=true);return}
 client=window.supabase.createClient(url,key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-client.auth.onAuthStateChange((_event,session)=>{currentUser=session?.user||null;render()});
+client.auth.onAuthStateChange((_event,session)=>{currentUser=session?.user||null;render();if(_event==='SIGNED_IN')$('message').textContent=''});
 client.auth.getUser().then(({data,error})=>{currentUser=data?.user||null;render();if(error&&error.name!=='AuthSessionMissingError')message('connection')}).catch(()=>message('connection'));
 async function act(type){
  const email=$('email').value.trim(),password=$('password').value;
  if(!email){message('missing');return}if(type!=='reset'&&password.length<8){message('short');return}
  ['login','signup','reset'].forEach(id=>$(id).disabled=true);
- try{let r;if(type==='login')r=await client.auth.signInWithPassword({email,password});else if(type==='signup')r=await client.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}});else r=await client.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});if(r.error)message('',r.error.message);else message(type==='login'?'success':type==='signup'?'sent':'resetSent')}
+ try{let r;if(type==='login')r=await client.auth.signInWithPassword({email,password});else if(type==='signup')r=await client.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}});else r=await client.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});if(r.error)message('',r.error.message);else if(type==='login'){currentUser=r.data?.user||null;render();$('message').textContent='';}else message(type==='signup'?'sent':'resetSent')}
  catch(e){message('',t('error')+e.message)}finally{['login','signup','reset'].forEach(id=>$(id).disabled=false)}
 }
 $('login').onclick=()=>act('login');$('signup').onclick=()=>act('signup');$('reset').onclick=()=>act('reset');
