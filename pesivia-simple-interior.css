@@ -22,3 +22,16 @@ html body main a:not(.action):not(.btn):not(.button){color:#1e548a!important;-we
 html body footer{color:#64748b!important}
 html body main :is(.total,.price,.num,.muted,.sub){color:#334155!important;-webkit-text-fill-color:#334155!important;text-shadow:none!important}
 @media(max-width:650px){html body>main{padding:12px!important;margin:10px auto!important}html body main :is(section,.panel,.card,.item,.notice,article,.entry){padding:14px!important}html body>header{padding:10px!important;gap:8px!important}html body>header :is(a,button,select){font-size:13px!important;padding:8px 10px!important}}
+
+/* High-contrast black labels and controls on clean light interiors */
+html body>header :is(a,button,select),html body>header .pesivia-home-link,html body>header #backButton{background:#17191f!important;color:#fff!important;-webkit-text-fill-color:#fff!important;border-color:#454b56!important}
+html body>header :is(a,button,select) :is(span,strong,b){color:#fff!important;-webkit-text-fill-color:#fff!important}
+html body main :is(h1,h2,h3){color:#fff!important;-webkit-text-fill-color:#fff!important;background:#17191f!important;display:table!important;width:auto!important;max-width:100%!important;padding:6px 11px!important;border-radius:9px!important}
+html body main :is(.sub,.status,.num,.total,.price){color:#fff!important;-webkit-text-fill-color:#fff!important;background:#202126!important;border-radius:9px!important;padding:7px 11px!important;width:fit-content!important;max-width:100%!important}
+html body main :is(.sub,.status,.num,.total,.price) :is(span,strong){color:#fff!important;-webkit-text-fill-color:#fff!important}
+html body main :is(input,textarea,select){background:#202126!important;color:#fff!important;-webkit-text-fill-color:#fff!important;border-color:#5e626c!important}
+html body main :is(input,textarea)::placeholder{color:#eee!important;-webkit-text-fill-color:#eee!important;opacity:1!important}
+html body main :is(button,.btn,a.btn,a.button,.action,main a.action){background:#202126!important;color:#fff!important;-webkit-text-fill-color:#fff!important;border-color:#555b65!important}
+html body main :is(button,.btn,a.btn,a.button,.action):hover{background:#353944!important}
+html body main :is(.primary,button[type=submit],#submit,#login,#save-style,#save-product){background:#234f80!important;color:#fff!important;-webkit-text-fill-color:#fff!important}
+html body main :is(.card,.panel,section,article,.item,.entry){background:#fff!important}
